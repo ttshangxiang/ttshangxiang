@@ -1,10 +1,5 @@
-// start.js
-require("babel-core/register")(
-    {
-        presets: ['stage-3','es2015']
-    }
-);
+require('babel-register')({
+  plugins: ['transform-async-to-generator']
+});
 
-require("babel-polyfill");
-
-require("./app.js");
+require("./server/app.js");

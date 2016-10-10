@@ -1,5 +1,11 @@
+
 const Koa = require('koa');
+const serve = require('koa-static');
+const path = require('path');
 const app = new Koa();
+const router = require('./router/index');
+
+app.use(serve(path.join(__dirname, '../client'))); //静态文件目录
 
 app.use(async (ctx, next) => {
   const start = new Date();
@@ -8,10 +14,8 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
-// response
-app.use(ctx => {
-  ctx.body = 'Hello Koa';
-});
+app.use(router.routes())
+  .use(router.allowedMethods());
 
 console.log('listen 3000...');
 app.listen(3000);

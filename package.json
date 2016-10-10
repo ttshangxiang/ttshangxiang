@@ -1,0 +1,29 @@
+{
+  "name": "ttshangxiang",
+  "version": "1.0.0",
+  "description": "ttshangxiang's new website!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttshangxiang/ttshangxiang.git"
+  },
+  "author": "ttshangxiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ttshangxiang/ttshangxiang/issues"
+  },
+  "homepage": "https://github.com/ttshangxiang/ttshangxiang#readme",
+  "dependencies": {
+    "koa": "^2.0.0-alpha.7"
+  },
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-stage-3": "^6.17.0"
+  }
+}

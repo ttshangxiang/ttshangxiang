@@ -1,9 +1,10 @@
-
+"use strict";
 const Koa = require('koa');
 const serve = require('koa-static');
 const path = require('path');
 const app = new Koa();
-const router = require('./router/index');
+const router = require('./routers/index');
+const db = require('./config/db');
 
 app.use(async (ctx, next) => {
   const start = new Date();

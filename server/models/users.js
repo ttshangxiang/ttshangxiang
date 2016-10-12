@@ -1,3 +1,4 @@
+"use strict";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -18,6 +19,19 @@ UserSchema.statics.printCount = function() {
         } else {
             console.log('user count='+ count);
         }
+    })
+}
+
+UserSchema.statics.queryAll = function() {
+	return new Promise((resolve, reject) => {
+        this.find((err, users) => {
+	        if (err) {
+	            console.log(err);
+	            resolve([]);
+	        } else {
+	            resolve(users);
+	        }
+	    })
     })
 }
 

@@ -23,16 +23,7 @@ UserSchema.statics.printCount = function() {
 }
 
 UserSchema.statics.queryAll = function() {
-	return new Promise((resolve, reject) => {
-        this.find((err, users) => {
-	        if (err) {
-	            console.log(err);
-	            resolve([]);
-	        } else {
-	            resolve(users);
-	        }
-	    })
-    })
+    return this.find({name:'徐彩云'}).exec();
 }
 
 let User = mongoose.model('User',UserSchema);

@@ -8,22 +8,24 @@ let UserSchema = new Schema({
     password: Number
 }, {collection: 'users'});
 
-UserSchema.methods.printInfo = function() {
-    console.log(this.name, this.username, this.password);
-}
-
-UserSchema.statics.printCount = function() {
-    this.count({}, (err, count) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('user count='+ count);
+UserSchema.statics = {
+    list () {
+        return this.find();
+    },
+    select (key, value) {
+        if (!key || !value) {
+            return;
         }
-    })
+        let param = {};
+        param[key] = value;
+        return this.findOne(param);
+    },
 }
 
-UserSchema.statics.queryAll = function() {
-    return this.find({name:'徐彩云'}).exec();
+UserSchema.methods = {
+    printInfo () {
+        console.log(this.name, this.username, this.password);
+    }
 }
 
 let User = mongoose.model('User',UserSchema);

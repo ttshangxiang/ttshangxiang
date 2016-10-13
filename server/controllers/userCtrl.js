@@ -42,5 +42,15 @@ module.exports = {
 			console.log(err);
 			ctx.body = {status: false, message: '修改失败'};
 		}
-	}
+	},
+    deleteUser: async (ctx, next) => {
+        let id = ctx.params.key;
+        try {
+            await Users.findByIdAndRemove(id);
+            ctx.body = {status: true};
+        } catch (err) {
+            console.log(err);
+            ctx.body = {status: false, message: '删除失败'};
+        }
+    }
 }

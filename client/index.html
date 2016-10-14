@@ -25,7 +25,7 @@
 <body>
     <div class="box">
         <input type="button" value="全部" onclick="findAll()">
-        <input type="button" value="查询">
+        <input type="button" value="查询" onclick="findUser()">
     </div>
     <form class="box" id="my-form">
         昵称：<input type="text" name="name"><span id="error"></span><br>
@@ -73,6 +73,40 @@
             })
             .fail(function() {
                 console.log("error");
+                $('#error').html(data.message);
+            })
+        }
+
+        var findUser = function () {
+            let formData = getForm();
+            $('#user-table').html('');
+            if (!formData.name) {
+                formData.name = undefined;
+            }
+            if (!formData.username) {
+                formData.username = undefined;
+            }
+            if (!formData.password) {
+                formData.password = undefined;
+            }
+            if (!formData._id) {
+                formData._id = undefined;
+            }
+            $.ajax({
+                url: '/users/query',
+                type: 'get',
+                data: formData
+            })
+            .done(function(data) {
+                var str = '';
+                $.each(data, function(index, el) {
+                    str += '<tr><td>'+(el.name||'')+'</td><td>'+(el.username||'')+'</td><td>'+(el.password||'')+'</td><td>'+(el._id||'')+'</td></tr>'
+                });
+                $('#user-table').html(str);
+            })
+            .fail(function() {
+                console.log("error");
+                $('#error').html(data.message);
             })
         }
 

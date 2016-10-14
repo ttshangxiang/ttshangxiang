@@ -16,4 +16,5 @@ module.exports =  (router, controller) => {
 	.post('/', controller['add' + controller.model] || notFound)//新增
 	.put('/', controller['update' + controller.model] || notFound)//修改
 	.delete('/:key', controller['delete' + controller.model] || notFound)//删除
+	.get('/query', controller['query' + controller.model] || notFound)//模糊查询
 }

@@ -16,13 +16,13 @@ module.exports = {
 		// ctx.request.body; //body参数
 		console.log(ctx.request.body);
 
-		//查重
-		let user = await Users.select('username',ctx.request.body.username);
-		if (user) {
-			ctx.body = {status: false, message: '用户名重复'};
-			return;
-		}
 		try {
+			//查重
+			let user = await Users.select('username',ctx.request.body.username);
+			if (user) {
+				ctx.body = {status: false, message: '用户名重复'};
+				return;
+			}
 			await Users(ctx.request.body).save();
 			ctx.body = {status: true};
 		} catch (err) {
@@ -36,6 +36,13 @@ module.exports = {
 		delete param._id;
 		// console.log(param, ctx.request.body._id);
 		try {
+			//查重
+			let user = await Users.select('username',param.username);
+			console.log(user._id, id);
+			if (user && user._id != id) {
+				ctx.body = {status: false, message: '用户名重复'};
+				return;
+			}
 			await Users.findByIdAndUpdate(id, param);
 			ctx.body = {status: true};
 		} catch (err) {
@@ -52,5 +59,20 @@ module.exports = {
             console.log(err);
             ctx.body = {status: false, message: '删除失败'};
         }
+    },
+    queryUser: async (ctx, next) => {
+    	let query = ctx.query;
+    	for(let i in query) {
+    		if (i !=='password' && i !=='_id') {
+    			query[i] = new RegExp(query[i]);
+    		}
+    	}
+    	try {
+    		const users = await Users.find(query);
+			ctx.body = users;
+    	} catch(err) {
+    		console.log(err);
+            ctx.body = {status: false, message: '查询失败'};
+    	}
     }
 }

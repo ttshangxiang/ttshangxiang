@@ -48,7 +48,6 @@ module.exports = {
         try {
             //查重
             let user = await Users.select('username', param.username);
-            console.log(user._id, id);
             if (user && user._id != id) {
                 ctx.body = { status: false, message: '用户名重复' };
                 return;

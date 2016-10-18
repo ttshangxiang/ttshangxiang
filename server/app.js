@@ -9,12 +9,12 @@ const db = require('./config/db');
 
 app.use(bodyParser());
 
-let init = async () => {
-	try{
-    	await db.create();
-	} catch (err) {
-		console.log(err);
-	}
+let init = async() => {
+    try {
+        await db.create();
+    } catch (err) {
+        console.log(err);
+    }
 }
 init(); //连接
 

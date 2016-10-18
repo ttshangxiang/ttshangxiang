@@ -4,44 +4,44 @@ const mongoose = require('mongoose');
 let db = mongoose.connection;
 
 db.on('error', () => {
-	console.error.bind(console, 'connection error:')
+    console.error.bind(console, 'connection error:')
 });
 db.on('open', () => {
-    console.log('db open');    
+    console.log('db open');
 });
-db.on('connecting', ()=>{
+db.on('connecting', () => {
     console.log('db connecting...');
 });
-db.on('connected', ()=>{
+db.on('connected', () => {
     console.log('db connected');
 });
-db.on('disconnecting', ()=>{
+db.on('disconnecting', () => {
     console.log('db disconnecting...');
 });
-db.on('disconnected', ()=>{
+db.on('disconnected', () => {
     console.log('db disconnected');
 });
-db.on('close', ()=>{
+db.on('close', () => {
     console.log('db close');
 });
 
 let create = () => { //创建连接
-	return new Promise( (resolve, reject) => {
-		try {
-			db.once('error', () => {
-				reject('error1');
-			});
-			db.once('open', () => {
-				resolve();
-			});
-			db.once('disconnected', ()=>{
-			    reject('error2');
-			});
-			mongoose.connect('mongodb://root:123456@ds011715.mlab.com:11715/ttshangxiang');
-		} catch (err) {
-			reject('error3');
-		}
-	})
+    return new Promise((resolve, reject) => {
+        try {
+            db.once('error', () => {
+                reject('error1');
+            });
+            db.once('open', () => {
+                resolve();
+            });
+            db.once('disconnected', () => {
+                reject('error2');
+            });
+            mongoose.connect('mongodb://root:123456@ds011715.mlab.com:11715/ttshangxiang');
+        } catch (err) {
+            reject('error3');
+        }
+    })
 }
 
 // 关闭的两种方式
@@ -58,5 +58,6 @@ let create = () => { //创建连接
 // })
 
 module.exports = {
-	db, create
+    db,
+    create
 };

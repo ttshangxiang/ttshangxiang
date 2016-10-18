@@ -2,8 +2,8 @@
 
 const router = require('koa-router')();
 const userCtrl = require('../controllers/userCtrl');
-const controller = require('./base');
+const base = require('./base');
 
-controller(router, userCtrl);
+base.resource(router, userCtrl);
 
 module.exports = router;

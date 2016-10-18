@@ -3,16 +3,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let UserSchema = new Schema({
-    name: String,   //定义一个属性name，类型为String
+    name: String, //定义一个属性name，类型为String
     username: String,
     password: Number
-}, {collection: 'users'});
+}, { collection: 'users' });
 
 UserSchema.statics = {
-    list () {
+    list() {
         return this.find();
     },
-    select (key, value) {
+    select(key, value) {
         if (!key || !value) {
             return;
         }
@@ -23,12 +23,12 @@ UserSchema.statics = {
 }
 
 UserSchema.methods = {
-    printInfo () {
+    printInfo() {
         console.log(this.name, this.username, this.password);
     }
 }
 
-let User = mongoose.model('User',UserSchema);
+let User = mongoose.model('User', UserSchema);
 
 module.exports = User;
 

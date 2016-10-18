@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ttshangxiang</title>
+    <style>
+        #user-table {
+            border-collapse: collapse;
+        }
+        
+        #user-table td,
+        #user-table th {
+            line-height: 27px;
+            padding: 0 12px;
+            border: 1px solid #ccc;
+        }
+        
+        .box {
+            padding: 12px;
+        }
+        
+        input {
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <input type="button" value="全部" onclick="findAll()">
+        <input type="button" value="查询" onclick="findUser()">
+    </div>
+    <form class="box" id="my-form">
+        昵称：
+        <input type="text" name="name"><span id="error"></span>
+        <br> 用户：
+        <input type="text" name="username">
+        <br> 密码：
+        <input type="number" name="password">
+        <br> _id&nbsp;:
+        <input type="text" name="_id">
+        <input type="button" value="新增" onclick="addUser()">
+        <input type="button" value="修改" onclick="updateUser()">
+        <input type="button" value="删除" onclick="deleteUser()">
+        <input type="reset" value="重置">
+    </form>
+    <div class="user-list">
+        <table id="user-table">
+        </table>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        // 获取表单
+        var getForm = function() {
+            return {
+                name: $('input[name=name]').val(),
+                username: $('input[name=username]').val(),
+                password: $('input[name=password]').val(),
+                _id: $('input[name=_id]').val()
+            }
+        }
+
+        // 设置表单
+        var setForm = function(name, username, password, _id) {
+            $('input[name=name]').val(name);
+            $('input[name=username]').val(username);
+            $('input[name=password]').val(password);
+            $('input[name=_id]').val(_id);
+        }
+
+        // 查询所有
+        var findAll = function() {
+            $('#user-table').html('');
+            $.ajax({
+                    url: '/users'
+                })
+                .done(function(data) {
+                    var str = '';
+                    $.each(data, function(index, el) {
+                        str += '<tr><td>' + (el.name || '') + '</td><td>' + (el.username || '') + '</td><td>' + (el.password || '') + '</td><td>' + (el._id || '') + '</td></tr>'
+                    });
+                    $('#user-table').html(str);
+                })
+                .fail(function() {
+                    console.log("error");
+                    $('#error').html(data.message);
+                })
+        }
+
+        // 条件查询
+        var findUser = function() {
+            let formData = getForm();
+            $('#user-table').html('');
+            if (!formData.name) {
+                formData.name = undefined;
+            }
+            if (!formData.username) {
+                formData.username = undefined;
+            }
+            if (!formData.password) {
+                formData.password = undefined;
+            }
+            if (!formData._id) {
+                formData._id = undefined;
+            }
+            $.ajax({
+                    url: '/users/query',
+                    type: 'get',
+                    data: formData
+                })
+                .done(function(data) {
+                    var str = '';
+                    $.each(data, function(index, el) {
+                        str += '<tr><td>' + (el.name || '') + '</td><td>' + (el.username || '') + '</td><td>' + (el.password || '') + '</td><td>' + (el._id || '') + '</td></tr>'
+                    });
+                    $('#user-table').html(str);
+                })
+                .fail(function() {
+                    console.log("error");
+                    $('#error').html(data.message);
+                })
+        }
+
+        // 添加
+        var addUser = function() {
+            let formData = getForm();
+
+            if (formData._id) {
+                $('#error').html('_id不需要，请置空');
+                return;
+            }
+            formData._id = undefined;
+            if (!formData.name || !formData.username || !formData.password) {
+                $('#error').html('前三项必填');
+                return;
+            }
+            $('#error').html('');
+            $.ajax({
+                    url: '/users',
+                    type: 'post',
+                    data: formData
+                })
+                .done(function(data) {
+                    if (data.status) {
+                        findAll()
+                    } else {
+                        $('#error').html(data.message);
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+        }
+
+        // 修改
+        var updateUser = function() {
+            let formData = getForm();
+
+            if (!formData._id) {
+                $('#error').html('_id必填');
+                return;
+            }
+            if (!formData.name && !formData.username && !formData.password) {
+                $('#error').html('必须改变点什么，不然没必要修改');
+                return;
+            }
+            if (!formData.name) {
+                formData.name = undefined;
+            }
+            if (!formData.username) {
+                formData.username = undefined;
+            }
+            if (!formData.password) {
+                formData.password = undefined;
+            }
+            $('#error').html('');
+            $.ajax({
+                    url: '/users',
+                    type: 'put',
+                    data: formData
+                })
+                .done(function(data) {
+                    if (data.status) {
+                        findAll()
+                    } else {
+                        $('#error').html(data.message);
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+        }
+
+        // 删除
+        var deleteUser = function() {
+
+            let _id = $('input[name=_id]').val();
+            if (!_id) {
+                $('#error').html('_id必填');
+                return;
+            }
+            $('#error').html('');
+            $.ajax({
+                    url: '/users/' + _id,
+                    type: 'delete'
+                })
+                .done(function(data) {
+                    if (data.status) {
+                        findAll();
+                    } else {
+                        $('#error').html(data.message);
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+        }
+
+        // 点击选中
+        $('#user-table').on('click', 'tr', function(event) {
+            setForm($(this).children('td:eq(0)').html(),
+                $(this).children('td:eq(1)').html(),
+                $(this).children('td:eq(2)').html(),
+                $(this).children('td:eq(3)').html());
+        })
+    </script>
+</body>
+
+</html>

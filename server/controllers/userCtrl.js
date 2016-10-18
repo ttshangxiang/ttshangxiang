@@ -2,7 +2,7 @@
 const Users = require('../models/users');
 
 module.exports = {
-    model: 'User',
+    suffix: 'User', //方法后缀
     getIndex: async(ctx, next) => {
         try {
             const list = await Users.list();

@@ -12,9 +12,9 @@ let notFound = (ctx, next) => {
 
 module.exports =  (router, controller) => {
 	router.get('/', controller.getIndex || notFound) //列表
-	.get('/:key/:value', controller['get' + controller.model] || notFound)//精确查找单个
-	.post('/', controller['add' + controller.model] || notFound)//新增
-	.put('/', controller['update' + controller.model] || notFound)//修改
-	.delete('/:key', controller['delete' + controller.model] || notFound)//删除
-	.get('/query', controller['query' + controller.model] || notFound)//模糊查询
+	.get('/:key/:value', controller['get' + controller.suffix] || notFound)//精确查找单个
+	.post('/', controller['add' + controller.suffix] || notFound)//新增
+	.put('/', controller['update' + controller.suffix] || notFound)//修改
+	.delete('/:key', controller['delete' + controller.suffix] || notFound)//删除
+	.get('/query', controller['query' + controller.suffix] || notFound)//模糊查询
 }

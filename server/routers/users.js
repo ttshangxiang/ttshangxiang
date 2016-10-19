@@ -1,9 +1,9 @@
-"use strict";
 
-const router = require('koa-router')();
-const userCtrl = require('../controllers/userCtrl');
-const base = require('./base');
+import koaRouter from 'koa-router';
+import userCtrl from '../controllers/userCtrl';
+import {resource, controller} from './base';
+const router = koaRouter();
 
-base.resource(router, userCtrl);
+resource(router, userCtrl);
 
 module.exports = router;

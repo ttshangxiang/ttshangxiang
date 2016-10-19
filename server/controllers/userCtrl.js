@@ -1,5 +1,5 @@
-"use strict";
-const Users = require('../models/users');
+
+import Users from '../models/users';
 
 module.exports = {
     suffix: 'User', //方法后缀

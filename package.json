@@ -8,7 +8,7 @@
     "start": "pm2 start bin/server.js",
     "server": "supervisor -w ./server bin/server.js",
     "dev": "node client/server.js --env=dev",
-    "dist": "webpack --env=dist",
+    "dist": "cd client && webpack --env=dist",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "clean": "rimraf dist/*"
   },
@@ -25,12 +25,13 @@
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-register": "^6.16.3",
+    "babel-runtime": "^6.11.6",
+    "core-js": "^2.4.1",
     "koa": "^2.0.0-alpha.7",
     "koa-bodyparser": "^3.2.0",
     "koa-router": "^7.0.1",
     "koa-static": "^3.0.0",
     "mongoose": "^4.6.3",
-    "core-js": "^2.4.1",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0"
@@ -39,6 +40,7 @@
     "babel-core": "^6.0.0",
     "babel-eslint": "^6.0.0",
     "babel-loader": "^6.0.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.0.15",
     "babel-preset-react": "^6.0.15",

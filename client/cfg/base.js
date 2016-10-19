@@ -15,17 +15,18 @@ module.exports = {
   debug: true,
   devtool: 'eval',
   output: {
-    path: path.join(__dirname, '/../dist/assets'),
+    path: path.join(__dirname, '../assets'),
     filename: 'app.js',
     publicPath: defaultSettings.publicPath
   },
   devServer: {
-    contentBase: './src/',
+    contentBase: './client',
     historyApiFallback: true,
     hot: true,
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
-    noInfo: false
+    noInfo: false,
+    stats: { colors: true }
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],

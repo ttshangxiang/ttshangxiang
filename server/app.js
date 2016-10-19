@@ -1,11 +1,11 @@
-"use strict";
-const Koa = require('koa');
-const serve = require('koa-static');
-const path = require('path');
-const bodyParser = require('koa-bodyparser');
+
+import Koa from 'koa';
+import serve from 'koa-static';
+import path from 'path';
+import bodyParser from 'koa-bodyparser';
+import router from './routers/index';
+import db from './config/db';
 const app = new Koa();
-const router = require('./routers/index');
-const db = require('./config/db');
 
 app.use(bodyParser());
 

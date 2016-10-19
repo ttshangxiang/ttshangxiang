@@ -1,4 +1,4 @@
-"use strict";
+
 /*
  * controller通用方法
  * 仿laravel

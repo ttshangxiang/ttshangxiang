@@ -1,8 +1,9 @@
-"use strict";
 
-const router = require('koa-router')();
-const users = require('./users');
-const database = require('../config/db');
+import koaRouter from 'koa-router';
+import users from './users';
+import database from '../config/db';
+
+const router = koaRouter();
 
 router.get('/', async(ctx, next) => {
     ctx.body = 'hahh';

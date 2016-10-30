@@ -1,0 +1,78 @@
+
+/* 卡片*/
+.card {
+    width: 290px;
+    padding: 5px;
+    border: 1px solid #dad9d0;
+    background: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+    
+    /*临时*/
+    margin: 30px;
+}
+
+.card .wrap {
+    margin-bottom: 10px;
+}
+
+.card .img {
+    position: relative;
+    zoom: 1;
+}
+
+.card .img img {
+    display: block;
+    width: 100%;
+}
+
+.card .img .piccover {
+    opacity: 0;
+    filter: alpha(opacity=50);
+    background: #40ce8f url(../images/5629507230794529885.png) 0 0 repeat;
+    cursor: pointer;
+
+    _display: none;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.card .img a:hover .piccover {
+    opacity: .5;
+    visibility: visible;
+    _visibility: hidden;
+}
+
+.card .f-trans {
+    transition: all .3s linear;
+    -webkit-transition: all .3s linear;
+    -moz-transition: all .3s linear;
+    -o-transition: all .3s linear;
+}
+
+.card .text {
+    line-height: 25px;
+    padding: 0 10px 1px 10px;
+    color: #666;
+}
+
+.card .otherinfo {
+    height: 36px;
+    line-height: 36px;
+    padding: 5px 10px 0 10px;
+    border-top: 1px solid #ccc;
+}
+
+.card .otherinfo a {
+    color: #40ce8f;
+}
+
+.card .otherinfo .hot {
+    float: right;
+    padding-left: 15px;
+}

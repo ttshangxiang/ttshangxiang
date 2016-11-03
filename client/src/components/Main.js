@@ -3,29 +3,36 @@ require('styles/App.css');
 
 import React from 'react';
 import Card from './Card';
-
-let img = require('../images/1293377518002363058.jpg');
-let data = {
-    img: img,
-    text: '这张是前几天，周6，在回家路上拍的。',
-    time: '2011-08-24',
-    zan: 796
-}
-
-let img2 = require('../images/2891873910742182051.jpg');
-let data2 = {
-    img: img2,
-    text: '专注，从LOFTER开始',
-    time: '2011-08-25',
-    zan: 359
-}
+import 'isomorphic-fetch';
+import promise from 'es6-promise';
+promise.polyfill();
 
 class AppComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { data: [] };
+        this.render2 = this.render.bind(this);
+    }
+
+    componentDidMount () {
+        fetch('/words')
+        .then(response => response.json())
+        .then(json => {
+            this.state.data = json;
+            this.render2();
+        })
+        .catch(err => console.log(err))
+    }
+
     render() {
+        var data = this.state.data,
+            items = [];
+        for (let i = 0; i < data.length; i++) {
+            items.push(<Card key={data[i]._id} data={data[i]}></Card>)
+        }
         return (
             <div className="index">
-                <Card data={data}></Card>
-                <Card data={data2}></Card>
+                {items}
             </div>
         );
     }

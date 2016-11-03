@@ -10,7 +10,8 @@
     "dev": "node client/server.js --env=dev",
     "dist": "cd client && webpack --env=dist",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
-    "clean": "rimraf dist/*"
+    "clean": "rimraf dist/*",
+    "r": "pm2 restart all"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,9 @@
     "mongoose": "^4.6.3",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
-    "react-dom": "^15.0.0"
+    "react-dom": "^15.0.0",
+    "isomorphic-fetch": "^2.2.1",
+    "es6-promise": "^4.0.5"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -47,6 +50,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "bower-webpack-plugin": "^0.1.9",
     "chai": "^3.2.0",
+    "copy-webpack-plugin": "^4.0.0",
     "copyfiles": "^0.2.1",
     "css-loader": "^0.23.0",
     "eslint": "^2.2.0",

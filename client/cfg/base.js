@@ -1,6 +1,7 @@
 'use strict';
 let path = require('path');
 let defaultSettings = require('./defaults');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Additional npm or bower modules to include in builds
 // Add all foreign plugins you may need into this array
@@ -26,7 +27,17 @@ module.exports = {
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: false,
-    stats: { colors: true }
+    stats: { colors: true },
+    proxy: {
+      '/words': {
+          target: 'http://localhost:3000',
+          secure: false
+      },
+      '/users': {
+          target: 'http://localhost:3000',
+          secure: false
+      }
+    }
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -39,5 +50,10 @@ module.exports = {
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV
     }
   },
-  module: {}
+  module: {},
+  plugins: [
+    new CopyWebpackPlugin([
+        { from: path.join(__dirname, '../src/images/words'), to: './words', toType: 'dir'}
+    ])
+  ]
 };

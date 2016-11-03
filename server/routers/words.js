@@ -1,9 +1,9 @@
 
 import koaRouter from 'koa-router';
-import userCtrl from '../controllers/userCtrl';
+import wordCtrl from '../controllers/wordCtrl';
 import {resource} from './base';
 const router = koaRouter();
 
-resource(router, userCtrl);
+resource(router, wordCtrl);
 
 module.exports = router;

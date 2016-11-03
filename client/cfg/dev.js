@@ -16,13 +16,13 @@ let config = Object.assign({}, baseConfig, {
   ],
   cache: true,
   devtool: 'eval-source-map',
-  plugins: [
+  plugins: baseConfig.plugins.concat([
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     })
-  ],
+  ]),
   module: defaultSettings.getDefaultModules()
 });
 

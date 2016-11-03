@@ -1,6 +1,7 @@
 
 import koaRouter from 'koa-router';
 import users from './users';
+import words from './words';
 import database from '../config/db';
 
 const router = koaRouter();
@@ -30,5 +31,6 @@ router.use(async(ctx, next) => {
 })
 
 router.use('/users', users.routes(), users.allowedMethods());
+router.use('/words', words.routes(), words.allowedMethods());
 
 module.exports = router;

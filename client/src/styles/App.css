@@ -1,7 +1,7 @@
 /* Base Application Styles */
 body {
-  color: #fff;
-  background: #ededef;
+    color: #fff;
+    padding: 8px;
 }
 
 body, textarea, select, input {
@@ -15,5 +15,26 @@ body, textarea, select, input {
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.nav {
+    overflow: hidden;
+}
+
+.nav li {
+    padding: 12px 12px 8px;
+    float: left;
+}
+
+.nav a {
+    color: #999;
+}
+
+.nav a.active {
+    color: #40ce8f;
 }

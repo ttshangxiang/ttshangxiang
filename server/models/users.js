@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 let UserSchema = new Schema({
     name: String, //定义一个属性name，类型为String
     username: String,
-    password: Number
+    password: String
 }, { collection: 'users' });
 
 UserSchema.statics = {

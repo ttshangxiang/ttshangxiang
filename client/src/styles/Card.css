@@ -3,13 +3,14 @@
 .card {
     width: 290px;
     padding: 5px;
-    border: 1px solid #dad9d0;
     background: #fff;
     border-radius: 4px;
     font-size: 12px;
+    box-shadow: 0px 3px 6px -2px rgba(0,0,0,0.3);
     
     /*临时*/
-    margin: 30px;
+    float: left;
+    margin: 8px;
 }
 
 .card .wrap {

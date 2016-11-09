@@ -7,6 +7,8 @@ import promise from 'es6-promise';
 import { Link, IndexLink } from 'react-router';
 promise.polyfill();
 
+import Player from './Player';
+
 class AppComponent extends React.Component {
     render() {
         return (
@@ -16,6 +18,7 @@ class AppComponent extends React.Component {
                     <li><Link to="/words" activeClassName="active">WORDS</Link></li>
                     <li><Link to="/music" activeClassName="active">MUSIC</Link></li>
                 </ul>
+                <Player></Player>
                 {this.props.children}
             </div>
         );

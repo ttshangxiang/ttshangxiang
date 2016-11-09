@@ -1,0 +1,71 @@
+
+
+.s_player {
+    position: fixed;
+
+    width: 300px;
+    height: 100px;
+    background-color: #fff;
+
+    top: 54px;
+    right: 2px;
+
+    box-shadow: 0px 3px 6px -2px rgba(0,0,0,0.3);
+}
+
+.s_player .info {
+    width: 200px;
+    height: 100px;
+    float: left;
+    background: #fdf9f0;
+    overflow: hidden;
+    position: relative;
+}
+
+.s_player .btn-box {
+    width: 50px;
+    float: left;
+}
+
+.s_player .btn {
+    height: 50px;
+}
+
+.s_player .btn.play {
+    background: #3ba2c5 url(../images/svg/play_s.svg) no-repeat center;
+}
+
+.s_player .btn.like {
+    background: #ff0101 url(../images/svg/heart.svg) no-repeat center;
+}
+
+.s_player .btn.prev {
+    background: #111 url(../images/svg/prev_s.svg) no-repeat center;
+}
+
+.s_player .btn.next {
+    background: #111 url(../images/svg/next_s.svg) no-repeat center;
+}
+
+.s_player .info .bg {    
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+
+    -webkit-filter: blur(10px); /* Chrome, Opera */
+       -moz-filter: blur(10px);
+        -ms-filter: blur(10px);    
+            filter: blur(10px); 
+}
+
+.s_player .info .content {
+    position: absolute;
+    padding-left: 20px;
+    padding-top: 25px;
+}
+
+.s_player .info .head{
+    width: 50px;
+    height: 50px;
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,1);
+}

@@ -1,20 +1,47 @@
 
 import React from 'react';
-import Card from './card';
+import Card from './Card';
+import { bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 
-class AppComponent extends React.Component {
+const mapStateToProps = (state) => {
+    return {
+        count: state.home
+    }
+}
+
+const action = {
+    increase: () => {
+        console.log('aaa');
+        // return {type: 'home_add'}
+        return (dispatch) => {
+            dispatch({type: 'home_add'})
+        }
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(action, dispatch);
+}
+
+class Home extends React.Component {
 
     render() {
-        let data = {text: '哈哈哈', click: 555};
+        const {count, increase} = this.props;
+        let data = {text: '哈哈哈',click: count};
         return (
-            <div className="index">
+            <div className="index" onClick={increase}>
                 <Card data={data}></Card>
             </div>
         );
     }
 }
 
-AppComponent.defaultProps = {
-};
+Home.defaultProps = {
+    haha: 'haha'
+}
 
-export default AppComponent;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Home);

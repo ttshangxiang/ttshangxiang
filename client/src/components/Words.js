@@ -1,27 +1,49 @@
 
 import React from 'react';
 import Card from './Card';
+import { bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 
-class AppComponent extends React.Component {
+const mapStateToProps = (state) => {
+    return {
+        list: state.words.list
+    }
+}
+
+const action = {
+    load: () => {
+        return (dispatch, getState) => {
+            if (getState().words.list.length > 0) {// 加载过就不加载了
+                return;
+            }
+            fetch('/words')
+            .then(response => response.json())
+            .then(json => {
+                dispatch({
+                    type: 'words_load',
+                    list: json
+                });
+            })
+            .catch(err => console.log(err))
+        }
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(action, dispatch);
+}
+
+class Words extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: [] };
     }
 
     componentDidMount () {
-        fetch('/words')
-        .then(response => response.json())
-        .then(json => {
-            // 只有用 this.setState 才会调用 render
-            this.setState({
-                data: json
-            });
-        })
-        .catch(err => console.log(err))
+        this.props.load();
     }
 
     render() {
-        var data = this.state.data,
+        var data = this.props.list,
             items = [];
         for (let i = 0; i < data.length; i++) {
             items.push(<Card key={data[i]._id} data={data[i]}></Card>)
@@ -34,7 +56,10 @@ class AppComponent extends React.Component {
     }
 }
 
-AppComponent.defaultProps = {
+Words.defaultProps = {
 };
 
-export default AppComponent;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Words);

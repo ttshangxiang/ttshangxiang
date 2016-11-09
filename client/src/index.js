@@ -1,8 +1,9 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
 
 import reducers from './reducers/reducers';
 
@@ -16,35 +17,12 @@ import Music from './components/Music';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 // Store
-const store = createStore(reducers);
-
-// // Action
-const add_chat = { type: 'add_chat', payload: '呵呵' }
-
-// Map Redux state to component props
-function mapStateToProps(state) {
-    return {
-        value: state.count
-    }
-}
-
-// Map Redux actions to component props
-function mapDispatchToProps(dispatch) {
-    return {
-        onIncreaseClick: () => dispatch(add_chat)
-    }
-}
-
-// Connected Component
-const App = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Main)
+const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
     <Provider store = { store } >
         <Router history={hashHistory}>
-            <Route path="/" component={App}>
+            <Route path="/" component={Main}>
                 <IndexRoute component={Home}/>
                 <Route path="/words" component={Words}/>
                 <Route path="/music" component={Music}/>

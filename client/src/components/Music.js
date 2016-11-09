@@ -4,9 +4,16 @@ import React from 'react';
 class AppComponent extends React.Component {
 
     render() {
+        const icon_play = require('../images/svg/play.svg');
+        const icon_pause = require('../images/svg/pause4.svg');
+        const icon_prev = require('../images/svg/prev.svg');
+        const icon_next = require('../images/svg/next.svg');
         return (
             <div className="index">
-                音乐
+                <img src={icon_play} alt=""/>
+                <img src={icon_pause} alt=""/>
+                <img src={icon_prev} alt=""/>
+                <img src={icon_next} alt=""/>
             </div>
         );
     }

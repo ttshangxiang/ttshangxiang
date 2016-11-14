@@ -2,10 +2,10 @@
   "name": "ttshangxiang",
   "version": "1.0.0",
   "description": "ttshangxiang's new website!",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2 start bin/server.js",
+    "start": "pm2 start server.js",
     "server": "supervisor -w ./server bin/server.js",
     "dev": "node client/server.js --env=dev",
     "dist": "cd client && webpack --env=dist",

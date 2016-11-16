@@ -6,7 +6,7 @@ import database from '../config/db';
 
 const router = koaRouter();
 
-router.get('/api', async(ctx, next) => {
+router.get('/', async(ctx, next) => {
     ctx.body = 'hahh';
 });
 
@@ -30,7 +30,12 @@ router.use(async(ctx, next) => {
     await next();
 })
 
-router.use('/users', users.routes(), users.allowedMethods());
-router.use('/words', words.routes(), words.allowedMethods());
+const child = koaRouter();
+
+child.use('/users', users.routes(), users.allowedMethods());
+child.use('/words', words.routes(), words.allowedMethods());
+
+//加一层api
+router.use('/api', child.routes(), child.allowedMethods())
 
 module.exports = router;

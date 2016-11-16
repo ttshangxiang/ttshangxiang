@@ -6,7 +6,7 @@ import database from '../config/db';
 
 const router = koaRouter();
 
-router.get('/', async(ctx, next) => {
+router.get('/api', async(ctx, next) => {
     ctx.body = 'hahh';
 });
 

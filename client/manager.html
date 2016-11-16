@@ -126,7 +126,7 @@
         var findAll = function() {
             $('#user-table').html('');
             $.ajax({
-                    url: '/'+$('#type').val()
+                    url: '/api/'+$('#type').val()
                 })
                 .done(function(data) {
                     createForm(data[0]);
@@ -155,7 +155,7 @@
                 formData._id = undefined;
             }
             $.ajax({
-                    url: '/'+$('#type').val()+'/query',
+                    url: '/api/'+$('#type').val()+'/query',
                     type: 'get',
                     data: formData
                 })
@@ -184,7 +184,7 @@
             }
             $('#error').html('');
             $.ajax({
-                    url: '/'+$('#type').val(),
+                    url: '/api/'+$('#type').val(),
                     type: 'post',
                     data: formData
                 })
@@ -215,7 +215,7 @@
             formData = clearNull(formData);
             $('#error').html('');
             $.ajax({
-                    url: '/'+$('#type').val(),
+                    url: '/api/'+$('#type').val(),
                     type: 'put',
                     data: formData
                 })
@@ -241,7 +241,7 @@
             }
             $('#error').html('');
             $.ajax({
-                    url: '/'+$('#type').val()+'/' + _id,
+                    url: '/api/'+$('#type').val()+'/' + _id,
                     type: 'delete'
                 })
                 .done(function(data) {

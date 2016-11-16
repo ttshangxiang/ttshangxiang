@@ -16,7 +16,7 @@ const action = {
             if (getState().words.list.length > 0) {// 加载过就不加载了
                 return;
             }
-            fetch('/words')
+            fetch('/api/words')
             .then(response => response.json())
             .then(json => {
                 dispatch({

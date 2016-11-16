@@ -21,8 +21,8 @@ class AppComponent extends React.Component {
                     </div>
                 </div>
                 <div className="f-clear otherinfo">
-                    <a href="#" className="time">{data.date}</a>
-                    <a href="#" className="f-icon hot">{data.click}</a>
+                    <a href="javascript:;" className="time">{data.date}</a>
+                    <a href="javascript:;" className="f-icon hot">{data.click}</a>
                 </div>
             </div>
         );

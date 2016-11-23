@@ -20,9 +20,22 @@ const home = (state = 999, action) => {
     }
 }
 
+const music = (state = { list: [], playing: {name:'hehe'} }, action) => {
+    const { type, list, index } = action;
+    switch (type) {
+        case 'musics_load':
+            return Object.assign({},state,{list: list});
+        case 'musics_play':
+            return Object.assign({},state,{playing: state.list[index]});
+        default:
+            return state;
+    }
+}
+
 const Reducer = combineReducers({
     words,
-    home
+    home,
+    music
 })
 
 export default Reducer;

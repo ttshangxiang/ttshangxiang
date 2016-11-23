@@ -43,7 +43,7 @@ class Words extends React.Component {
     }
 
     render() {
-        var data = this.props.list,
+        const data = this.props.list,
             items = [];
         for (let i = 0; i < data.length; i++) {
             items.push(<Card key={data[i]._id} data={data[i]}></Card>)

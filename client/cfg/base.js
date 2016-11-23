@@ -29,11 +29,7 @@ module.exports = {
     noInfo: false,
     stats: { colors: true },
     proxy: {
-      '/words': {
-          target: 'http://localhost:3000',
-          secure: false
-      },
-      '/users': {
+      '/api': {
           target: 'http://localhost:3000',
           secure: false
       }

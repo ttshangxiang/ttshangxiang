@@ -44,12 +44,12 @@
 
 .s_player .btn.prev {
     /*background: #111 url(../images/svg/prev_s.svg) no-repeat center;*/
-    background: #61c5c5 url(../images/svg/next_s.svg) no-repeat center;
+    background: #61c5c5 url(../images/svg/prev_s.svg) no-repeat center;
 }
 
 .s_player .btn.next {
     /*background: #111 url(../images/svg/next_s.svg) no-repeat center;*/
-    background: #a161b1 url(../images/svg/prev_s.svg) no-repeat center;
+    background: #a161b1 url(../images/svg/next_s.svg) no-repeat center;
 }
 
 .s_player .info .bg {    
@@ -106,6 +106,19 @@
     height: 24px;
     float: left;
     background: url(../images/svg/loop.svg) no-repeat center;
+    cursor: pointer;
+}
+
+.s_player .info .loop.noloop {
+    opacity: 0.4;
+}
+
+.s_player .info .loop.loop_one {
+    background-image: url(../images/svg/loop_one.svg);
+}
+
+.s_player .info .loop.random {
+    background-image: url(../images/svg/random.svg);
 }
 
 .s_player .info .voice {
@@ -115,9 +128,12 @@
     background: url(../images/svg/voice.svg) no-repeat center;
 }
 
-.s_player .info .voice-num {
+.s_player .info .voice-box {
     width: 72px;
     height: 24px;
     float: left;
+}
+
+.s_player .info .voice-num {
     background: url(../images/svg/line.svg) repeat-x center;
 }

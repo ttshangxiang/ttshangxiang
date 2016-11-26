@@ -94,7 +94,7 @@ class Player extends React.Component {
     checkStatus () {
         setInterval(()=>{
             if (this.refs.audio) {
-                this.setState({ readyState : this.refs.audio.readyState });
+                this.setState({ networkState : this.refs.audio.networkState });
                 if (this.refs.audio.paused) {
                     this.setState({ status: 2 });
                 } else {

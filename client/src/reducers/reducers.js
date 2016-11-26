@@ -20,13 +20,13 @@ const home = (state = 999, action) => {
     }
 }
 
-const music = (state = { list: [], playing: {name:'hehe'} }, action) => {
+const music = (state = { list: [], playing: null }, action) => {
     const { type, list, index } = action;
     switch (type) {
         case 'musics_load':
             return Object.assign({},state,{list: list});
         case 'musics_play':
-            return Object.assign({},state,{playing: state.list[index]});
+            return Object.assign({},state,{playing: index});
         default:
             return state;
     }

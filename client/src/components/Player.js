@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
     return {
-        music: state.music.playing
+        list: state.music.list,
+        music_index: state.music.playing
     }
 }
 
@@ -22,18 +23,23 @@ const action = {
                 });
                 dispatch({
                     type: 'musics_play',
-                    index: 0
+                    index: 1
                 });
             })
             .catch(err => console.log(err))
         }
     },
-    play: () => {
+    play: (index) => {
         return {
             type: 'musics_play',
-            index: 0
+            index: index
         }
     }
+}
+
+//获取元素的水平位置函数
+function pageX(elem){
+    return elem.offsetParent ? elem.offsetLeft + pageX(elem.offsetParent) : elem.offsetLeft;
 }
 
 function mapDispatchToProps(dispatch) {
@@ -45,14 +51,17 @@ class Player extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            // 0 = NETWORK_EMPTY - 音频/视频尚未初始化
+            // 1 = NETWORK_IDLE - 音频/视频是活动的且已选取资源，但并未使用网络
+            // 2 = NETWORK_LOADING - 浏览器正在下载数据
+            // 3 = NETWORK_NO_SOURCE - 未找到音频/视频来源
+            networkState: 0, //是否可播放，3才可以播放
             /*
-            * -1: 未就绪
-            *  0: 准备完毕
             *  1: 播放中
             *  2: 暂停
             *  3: 播放完毕
             */
-            status: -1,
+            status: 3,
             /*
             * 0: 不循环
             * 1: 列表循环
@@ -60,7 +69,10 @@ class Player extends React.Component {
             * 3: 随机
             */
             loop: 0,
-            volume: 1 //音量
+            volume: 1, //音量
+            quiet: false,
+            autoplay: false, //自动播放
+            preload: 'none' //不自动加载
         }
     }
 
@@ -75,16 +87,52 @@ class Player extends React.Component {
 
     componentDidMount () {
         this.props.load();
+        this.checkStatus();
+    }
+
+    //检查是否能播放
+    checkStatus () {
+        setInterval(()=>{
+            if (this.refs.audio) {
+                this.setState({ readyState : this.refs.audio.readyState });
+                if (this.refs.audio.paused) {
+                    this.setState({ status: 2 });
+                } else {
+                    this.setState({ status: 1 });
+                }
+            }
+        },1000);
     }
 
     //播放
     play () {
-        console.log('play');
+        if (this.state.status > 1) {
+            this.refs.audio.play();
+            this.setState({ status: 1 });
+        }
+        if (this.state.status == 1) {
+            this.refs.audio.pause();
+            this.setState({ status: 2 });
+        }
     }
 
     //切歌
     change (action) {
-        console.log(action);
+        this.setState({ autoPlay: true});
+        const { list, music_index } = this.props;
+        let next_index = null;
+        if (action == 'next') {
+            next_index = music_index + 1;
+            if (next_index >= list.length) {
+                next_index = 0;
+            }
+        } else if (action == 'prev') {
+            next_index = music_index - 1;
+            if (next_index < 0) {
+                next_index = list.length - 1;
+            }
+        }
+        this.props.play(next_index);
     }
 
     //循环
@@ -96,21 +144,46 @@ class Player extends React.Component {
         }
     }
 
+    //静音
+    quiet () {
+        this.refs.audio.muted = !this.state.quiet;
+        this.setState({ quiet : !this.state.quiet })
+    }
+
     //音量
     voice (event) {
-        console.log(event);
+        if (this.state.quiet) {
+            return;
+        }
+        const dom = this.refs.voiceBox;
+        let value = (event.pageX - pageX(dom))/dom.clientWidth;
+        this.refs.audio.volume = value;
+        this.setState({ volume: value });
     }
 
     render() {
-        const { music } = this.props;
+        const { list, music_index } = this.props;
+        const music = list[music_index] || {};
+        let play_class = 'play btn ';
+        if (this.state.status == -1) {
+            play_class += 'loading';
+        } else if (this.state.status == 1) {
+            play_class += 'pause';
+        }
+        let voice_style = {
+            display: this.state.quiet ? 'none' : 'block',
+            width: this.state.volume * 100 + '%'
+        };
         return (
             <div className="s_player">
                 <div className="btn-box">
-                    <div className="play btn" onClick={ this.play }></div>
-                    <div className="like btn"></div>
+                    <a href="javascript:;" className={ play_class } onClick={ this.play.bind(this) }>
+                        <div className={ this.state.networkState == 2 ? 'loading': '' }></div>
+                    </a>
+                    <a href="javascript:;" className="like btn"></a>
                 </div>
                 <div className="info">
-                    <img className="bg" src={ music.img } alt=""/>
+                    <img className="bg" src="/static/images/musics/bg.jpg" alt=""/>
                     <div className="content">
                         <img className="head" src={ music.img } alt=""/>
                         <div className="song_title">{ music.name }</div>
@@ -118,17 +191,17 @@ class Player extends React.Component {
                     </div>
                     <div className="song-btn">
                         <div className={ 'loop ' + this.props.loop_class[this.state.loop] } onClick={ this.loop.bind(this) }></div>
-                        <div className="voice"></div>
-                        <div className="voice-box" onClick={ this.voice.bind(this) }>
-                            <div className="voice-num" style={{ width: this.state.volume * 100 + '%' }}></div>
+                        <div className={ 'voice ' + (this.state.quiet ? 'voice_no' : '') }  onClick={ this.quiet.bind(this) }></div>
+                        <div className="voice-box" ref="voiceBox" onClick={ this.voice.bind(this) }>
+                            <div className="voice-num" style={ voice_style }></div>
                         </div>
                     </div>
                 </div>
                 <div className="btn-box">
-                    <div className="next btn" onClick={ this.change.bind(this, 'next') }></div>
-                    <div className="prev btn" onClick={ this.change.bind(this, 'prev') }></div>
+                    <a href="javascript:;" className="next btn" onClick={ this.change.bind(this, 'next') }></a>
+                    <a href="javascript:;" className="prev btn" onClick={ this.change.bind(this, 'prev') }></a>
                 </div>
-                <audio src= { music.path } autoPlay></audio>
+                <audio src= { music.path } ref="audio" preload='none' autoPlay={this.state.autoPlay}></audio>
             </div>
         );
     }

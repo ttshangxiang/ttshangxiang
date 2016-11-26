@@ -157,7 +157,7 @@ class Player extends React.Component {
         }
         const dom = this.refs.voiceBox;
         let value = (event.pageX - pageX(dom))/dom.clientWidth;
-        this.refs.audio.volume = value;
+        this.refs.audio.volume = value*value;
         this.setState({ volume: value });
     }
 

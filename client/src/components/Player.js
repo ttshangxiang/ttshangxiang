@@ -51,11 +51,7 @@ class Player extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // 0 = NETWORK_EMPTY - 音频/视频尚未初始化
-            // 1 = NETWORK_IDLE - 音频/视频是活动的且已选取资源，但并未使用网络
-            // 2 = NETWORK_LOADING - 浏览器正在下载数据
-            // 3 = NETWORK_NO_SOURCE - 未找到音频/视频来源
-            networkState: 0, //是否可播放，3才可以播放
+            readyState: 4, //是否可播放，3才可以播放
             /*
             *  1: 播放中
             *  2: 暂停
@@ -94,7 +90,7 @@ class Player extends React.Component {
     checkStatus () {
         setInterval(()=>{
             if (this.refs.audio) {
-                this.setState({ networkState : this.refs.audio.networkState });
+                this.setState({ readyState : this.refs.audio.readyState });
                 if (this.refs.audio.paused) {
                     this.setState({ status: 2 });
                 } else {
@@ -178,7 +174,7 @@ class Player extends React.Component {
             <div className="s_player">
                 <div className="btn-box">
                     <a href="javascript:;" className={ play_class } onClick={ this.play.bind(this) }>
-                        <div className={ this.state.networkState == 2 ? 'loading': '' }></div>
+                        <div className={ this.state.readyState < 3 ? 'loading': '' }></div>
                     </a>
                     <a href="javascript:;" className="like btn"></a>
                 </div>

@@ -168,3 +168,24 @@
     background: url(../images/svg/line.svg) repeat-x left center;
     height: 100%;
 }
+
+.s_player .info .played {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #40ce8f;
+}
+.s_player .info .loaded {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #999;
+}
+
+.s_player .info .times{
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    font-size: 12px;
+    color: #333;
+}

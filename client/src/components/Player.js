@@ -22,7 +22,7 @@ const action = {
                     });
                     dispatch({
                         type: 'musics_play',
-                        index: 1
+                        index: 2
                     });
                 })
                 .catch(err => console.log(err))
@@ -39,6 +39,11 @@ const action = {
 //获取元素的水平位置函数
 function pageX(elem) {
     return elem.offsetParent ? elem.offsetLeft + pageX(elem.offsetParent) : elem.offsetLeft;
+}
+
+//秒钟变分钟
+function timeF(min) {
+    return  (Math.floor(min / 60) + 100 + '').substr(1) + ':' +  (Math.floor(min % 60) + 100 + '').substr(1);
 }
 
 function mapDispatchToProps(dispatch) {
@@ -67,7 +72,10 @@ class Player extends React.Component {
             volume: 1, //音量
             quiet: false,
             autoplay: false, //自动播放
-            preload: 'none' //不自动加载
+            preload: 'none', //不自动加载
+            times: '', //时间显示
+            played: 0, //进度条
+            loaded: 0 //已加载
         }
     }
 
@@ -87,18 +95,48 @@ class Player extends React.Component {
 
     //事件
     checkStatus() {
-        this.refs.audio.addEventListener('pause', () => {
+        let audio = this.refs.audio;
+        audio.addEventListener('pause', () => {
             this.setState({ status: 2 });
         });
-        this.refs.audio.addEventListener('play', () => {
+        audio.addEventListener('play', () => {
             this.setState({ status: 1 });
         });
-        this.refs.audio.addEventListener('playing', () => {
+        audio.addEventListener('playing', () => {
             this.setState({ loading: false });
         });
-        this.refs.audio.addEventListener('waiting', () => {
+        audio.addEventListener('waiting', () => {
             this.setState({ loading: true });
         });
+        audio.addEventListener('ended', () => {
+            if (this.state.loop == 1) {
+                this.change('next');
+            }
+            if (this.state.loop == 2) {
+                audio.play();
+            }
+            if (this.state.loop == 3) {
+                this.setState({ autoplay: true, loading: true });
+                this.props.play(Math.floor(( Math.random() * this.props.list.length )));
+            }
+        });
+        //进度条
+        setInterval( () => {
+            if (audio.duration) {
+                this.setState({
+                    times: timeF(audio.duration) + '/' + timeF(audio.played.end(0)),
+                    played: audio.played.end(0) / audio.duration * 100 + '%',
+                    loaded: audio.seekable.end(0) / audio.duration * 100 + '%'
+                });
+            } else {
+                this.setState({
+                    times: '',
+                    played: 0,
+                    loaded: 0
+                });
+            }
+            
+        }, 500);
     }
 
     //播放
@@ -201,6 +239,9 @@ class Player extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <div className="times">{ this.state.times }</div>
+                    <div className="loaded" style={{ width: this.state.loaded }}></div>
+                    <div className="played" style={{ width: this.state.played }}></div>
                 </div>
                 <div className="btn-box">
                     <a href="javascript:;" className="next btn" onClick={ this.change.bind(this, 'next') }>

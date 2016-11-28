@@ -112,10 +112,6 @@ class Player extends React.Component {
             if (this.state.loop == 1) {
                 this.change('next');
             }
-            if (this.state.loop == 2) {
-                audio.currentTime = 0;
-                audio.play();
-            }
             if (this.state.loop == 3) {
                 this.setState({ autoplay: true, loading: true });
                 this.props.play(Math.floor(( Math.random() * this.props.list.length )));
@@ -250,7 +246,7 @@ class Player extends React.Component {
                     <a href="javascript:;" className="prev btn" onClick={ this.change.bind(this, 'prev') }>
                     </a>
                 </div>
-                <audio src={ music.path } ref="audio" preload='none' autoPlay={ this.state.autoplay }></audio>
+                <audio src={ music.path } ref="audio" preload="none" autoPlay={ this.state.autoplay } loop={ this.state.loop == 2 }></audio>
             </div>
         );
     }

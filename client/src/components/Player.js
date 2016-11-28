@@ -123,7 +123,7 @@ class Player extends React.Component {
                 this.setState({
                     times: timeF(audio.duration) + '/' + timeF(audio.currentTime),
                     played: audio.currentTime / audio.duration * 100 + '%',
-                    loaded: audio.seekable.end(0) / audio.duration * 100 + '%'
+                    loaded: audio.buffered.end(0) / audio.duration * 100 + '%'
                 });
             } else {
                 this.setState({

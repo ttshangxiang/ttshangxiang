@@ -113,6 +113,7 @@ class Player extends React.Component {
                 this.change('next');
             }
             if (this.state.loop == 2) {
+                audio.currentTime = 0;
                 audio.play();
             }
             if (this.state.loop == 3) {
@@ -124,8 +125,8 @@ class Player extends React.Component {
         setInterval( () => {
             if (audio.duration) {
                 this.setState({
-                    times: timeF(audio.duration) + '/' + timeF(audio.played.end(0)),
-                    played: audio.played.end(0) / audio.duration * 100 + '%',
+                    times: timeF(audio.duration) + '/' + timeF(audio.currentTime),
+                    played: audio.currentTime / audio.duration * 100 + '%',
                     loaded: audio.seekable.end(0) / audio.duration * 100 + '%'
                 });
             } else {

@@ -113,7 +113,7 @@ class Player extends React.Component {
 
     //切歌
     change(action) {
-        this.setState({ autoPlay: true, loading: true });
+        this.setState({ autoplay: true, loading: true });
         const { list, music_index } = this.props;
         let next_index = null;
         if (action == 'next') {
@@ -205,7 +205,7 @@ class Player extends React.Component {
                     <a href="javascript:;" className="prev btn" onClick={ this.change.bind(this, 'prev') }>
                     </a>
                 </div>
-                <audio src={ music.path } ref="audio" preload='none' autoPlay={ this.state.autoPlay }></audio>
+                <audio src={ music.path } ref="audio" preload='none' autoPlay={ this.state.autoplay }></audio>
             </div>
         );
     }

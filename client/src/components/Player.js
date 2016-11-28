@@ -96,6 +96,9 @@ class Player extends React.Component {
         this.refs.audio.addEventListener('playing', () => {
             this.setState({ loading: false });
         });
+        this.refs.audio.addEventListener('waiting', () => {
+            this.setState({ loading: true });
+        });
     }
 
     //播放

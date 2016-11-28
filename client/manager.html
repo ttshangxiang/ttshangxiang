@@ -23,7 +23,7 @@
         input {
             margin-bottom: 2px;
         }
-
+        
         .input-box label {
             width: 88px;
             display: inline-block;
@@ -54,217 +54,265 @@
         <table id="user-table">
         </table>
     </div>
+    <p>-------------</p>
+    <p>上传文件</p>
+    音乐：<form id="musicForm" enctype="multipart/form-data"><input type="file" name="filename" id="musicFile"></form><br>
+    <a href="javascript:;" id="postMusic">上传</a><br><br> 音图：
+    <input type="file" id="picFile"><br>
+    <a href="javascript:;" id="postPic">上传</a><br><br> 其他：
+    <input type="file" id="otherFile"><br> 路径：
+    <input type="text" id="otherPath"><br>
+    <a href="javascript:;" id="postOhter">上传</a>
+    上传状态：<p><span id="progress"></span> <span id="postInfo"></span></p>
     <script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
-        // 获取表单
-        var getForm = function() {
-            var obj = {};
-            $('#my-form input[type=text]').each(function(index, el){
-                obj[$(el).attr('name')] = $(el).val();
-            })
-            return obj;
-        }
-
-        // 设置表单
-        var setForm = function(obj) {
-            for(var i in obj) {
-                $('#my-form input[name="'+i+'"]').val(obj[i]);
+        function crud () {
+            // 获取表单
+            var getForm = function() {
+                var obj = {};
+                $('#my-form input[type=text]').each(function(index, el) {
+                    obj[$(el).attr('name')] = $(el).val();
+                })
+                return obj;
             }
-        }
 
-        // 创建表单
-        var createForm = function(el) {
-            var str = '';
-            for(var i in el) {
-                str += '<label>'+i+'</label><input type="text" name="'+i+'"><br>';
-            }
-            $('#my-form .input-box').html(str);
-        }
-
-        // 创建表格
-        var createTable = function(data) {
-            var str = '';
-            $.each(data, function(index, el) {
-                str += '<tr>';
-                for(var i in el) {
-                    str += '<td data="'+i+'">'+( el[i] || '' )+'</td>';
-                }
-                str += '</tr>';
-            });
-            $('#user-table').html(str);
-        }
-
-        // 检查数据
-        var validate = function(obj, type) {
-            var count = 0;
-            var pass = 0;
-            for(var i in obj) {
-                if (i == '_id') { 
-                    continue;
-                }
-                count++;
-                obj[i] != '' && pass++;
-            }
-            if (type == 'all') {
-                return count == pass;
-            }
-            if (type == 'one') {
-                return pass > 0;
-            }
-        }
-
-        // 清除空
-        var clearNull = function(obj) {
-            for(var i in obj) {
-                if (obj[i] == '') {
-                    obj[i] = undefined;
+            // 设置表单
+            var setForm = function(obj) {
+                for (var i in obj) {
+                    $('#my-form input[name="' + i + '"]').val(obj[i]);
                 }
             }
-            return obj;
-        }
 
-        // 查询所有
-        var findAll = function() {
-            $('#user-table').html('');
-            $.ajax({
-                    url: '/api/'+$('#type').val()
-                })
-                .done(function(data) {
-                    createForm(data[0]);
-                    createTable(data);
-                })
-                .fail(function() {
-                    console.log("error");
-                    $('#error').html(data.message);
-                })
-        }
+            // 创建表单
+            var createForm = function(el) {
+                var str = '';
+                for (var i in el) {
+                    str += '<label>' + i + '</label><input type="text" name="' + i + '"><br>';
+                }
+                $('#my-form .input-box').html(str);
+            }
 
-        // 条件查询
-        var findUser = function() {
-            let formData = getForm();
-            $('#user-table').html('');
-            if (!formData.name) {
-                formData.name = undefined;
+            // 创建表格
+            var createTable = function(data) {
+                var str = '';
+                $.each(data, function(index, el) {
+                    str += '<tr>';
+                    for (var i in el) {
+                        str += '<td data="' + i + '">' + (el[i] || '') + '</td>';
+                    }
+                    str += '</tr>';
+                });
+                $('#user-table').html(str);
             }
-            if (!formData.username) {
-                formData.username = undefined;
+
+            // 检查数据
+            var validate = function(obj, type) {
+                var count = 0;
+                var pass = 0;
+                for (var i in obj) {
+                    if (i == '_id') {
+                        continue;
+                    }
+                    count++;
+                    obj[i] != '' && pass++;
+                }
+                if (type == 'all') {
+                    return count == pass;
+                }
+                if (type == 'one') {
+                    return pass > 0;
+                }
             }
-            if (!formData.password) {
-                formData.password = undefined;
+
+            // 清除空
+            var clearNull = function(obj) {
+                for (var i in obj) {
+                    if (obj[i] == '') {
+                        obj[i] = undefined;
+                    }
+                }
+                return obj;
             }
-            if (!formData._id) {
+
+            // 查询所有
+            var findAll = function() {
+                $('#user-table').html('');
+                $.ajax({
+                        url: '/api/' + $('#type').val()
+                    })
+                    .done(function(data) {
+                        createForm(data[0]);
+                        createTable(data);
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        $('#error').html(data.message);
+                    })
+            }
+
+            // 条件查询
+            var findUser = function() {
+                let formData = getForm();
+                $('#user-table').html('');
+                if (!formData.name) {
+                    formData.name = undefined;
+                }
+                if (!formData.username) {
+                    formData.username = undefined;
+                }
+                if (!formData.password) {
+                    formData.password = undefined;
+                }
+                if (!formData._id) {
+                    formData._id = undefined;
+                }
+                $.ajax({
+                        url: '/api/' + $('#type').val() + '/query',
+                        type: 'get',
+                        data: formData
+                    })
+                    .done(function(data) {
+                        createForm(data[0]);
+                        createTable(data);
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        $('#error').html(data.message);
+                    })
+            }
+
+            // 添加
+            var addUser = function() {
+                let formData = getForm();
+
+                if (formData._id) {
+                    $('#error').html('_id不需要，请置空');
+                    return;
+                }
                 formData._id = undefined;
+                if (!validate(formData, 'all')) {
+                    $('#error').html('除了_id其他必填项');
+                    return;
+                }
+                $('#error').html('');
+                $.ajax({
+                        url: '/api/' + $('#type').val(),
+                        type: 'post',
+                        data: formData
+                    })
+                    .done(function(data) {
+                        if (data.status) {
+                            findAll()
+                        } else {
+                            $('#error').html(data.message);
+                        }
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
             }
-            $.ajax({
-                    url: '/api/'+$('#type').val()+'/query',
-                    type: 'get',
-                    data: formData
-                })
-                .done(function(data) {
-                    createForm(data[0]);
-                    createTable(data);
-                })
-                .fail(function() {
-                    console.log("error");
-                    $('#error').html(data.message);
-                })
-        }
 
-        // 添加
-        var addUser = function() {
-            let formData = getForm();
+            // 修改
+            var updateUser = function() {
+                let formData = getForm();
 
-            if (formData._id) {
-                $('#error').html('_id不需要，请置空');
-                return;
+                if (!formData._id) {
+                    $('#error').html('_id必填');
+                    return;
+                }
+                if (!validate(formData, 'one')) {
+                    $('#error').html('必须改变点什么，不然没必要修改');
+                    return;
+                }
+                formData = clearNull(formData);
+                $('#error').html('');
+                $.ajax({
+                        url: '/api/' + $('#type').val(),
+                        type: 'put',
+                        data: formData
+                    })
+                    .done(function(data) {
+                        if (data.status) {
+                            findAll()
+                        } else {
+                            $('#error').html(data.message);
+                        }
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
             }
-            formData._id = undefined;
-            if (!validate(formData,'all')) {
-                $('#error').html('除了_id其他必填项');
-                return;
+
+            // 删除
+            var deleteUser = function() {
+
+                let _id = $('input[name=_id]').val();
+                if (!_id) {
+                    $('#error').html('_id必填');
+                    return;
+                }
+                $('#error').html('');
+                $.ajax({
+                        url: '/api/' + $('#type').val() + '/' + _id,
+                        type: 'delete'
+                    })
+                    .done(function(data) {
+                        if (data.status) {
+                            findAll();
+                        } else {
+                            $('#error').html(data.message);
+                        }
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
             }
-            $('#error').html('');
-            $.ajax({
-                    url: '/api/'+$('#type').val(),
-                    type: 'post',
-                    data: formData
-                })
-                .done(function(data) {
-                    if (data.status) {
-                        findAll()
-                    } else {
-                        $('#error').html(data.message);
-                    }
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-        }
 
-        // 修改
-        var updateUser = function() {
-            let formData = getForm();
-
-            if (!formData._id) {
-                $('#error').html('_id必填');
-                return;
-            }
-            if (!validate(formData,'one')) {
-                $('#error').html('必须改变点什么，不然没必要修改');
-                return;
-            }
-            formData = clearNull(formData);
-            $('#error').html('');
-            $.ajax({
-                    url: '/api/'+$('#type').val(),
-                    type: 'put',
-                    data: formData
+            // 点击选中
+            $('#user-table').on('click', 'tr', function(event) {
+                var obj = {};
+                $(this).find('td').each(function(index, el) {
+                    obj[$(el).attr('data')] = $(el).text();
                 })
-                .done(function(data) {
-                    if (data.status) {
-                        findAll()
-                    } else {
-                        $('#error').html(data.message);
-                    }
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-        }
-
-        // 删除
-        var deleteUser = function() {
-
-            let _id = $('input[name=_id]').val();
-            if (!_id) {
-                $('#error').html('_id必填');
-                return;
-            }
-            $('#error').html('');
-            $.ajax({
-                    url: '/api/'+$('#type').val()+'/' + _id,
-                    type: 'delete'
-                })
-                .done(function(data) {
-                    if (data.status) {
-                        findAll();
-                    } else {
-                        $('#error').html(data.message);
-                    }
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-        }
-
-        // 点击选中
-        $('#user-table').on('click', 'tr', function(event) {
-            var obj = {};
-            $(this).find('td').each(function(index, el) {
-                obj[$(el).attr('data')] = $(el).text();
+                setForm(obj);
             })
-            setForm(obj);
-        })
+        }
+
+        crud();
+
+        function uploadProgress (e) {
+            document.getElementById('progress').innerText = Math.round(e.loaded * 100 / e.total) + '%';
+        }
+
+        function uploadFinish () {
+            document.getElementById('postInfo').innerText = 'Finished!';
+        }
+
+        function uploadError () {
+            document.getElementById('postInfo').innerText ='Error!';
+        }
+
+        function uploadAbort () {
+            document.getElementById('postInfo').innerText = 'Abort!';
+        }
+
+        // 上传
+        $('#postMusic').click(function(event) {
+            if (document.getElementById('musicFile').files.length == 0) {
+                alert('未选择');
+                return;
+            } 
+            var vFD = new FormData(document.getElementById('musicForm')); 
+            // create XMLHttpRequest object, adding few event listeners, and POSTing our data
+            var oXHR = new XMLHttpRequest();        
+            oXHR.upload.addEventListener('progress', uploadProgress, false);
+            oXHR.addEventListener('load', uploadFinish, false);
+            oXHR.addEventListener('error', uploadError, false);
+            oXHR.addEventListener('abort', uploadAbort, false);
+            oXHR.open('POST', '/api/upload');
+            oXHR.send(vFD);
+        });
+
     </script>
 </body>
 

@@ -38,16 +38,16 @@
             <option value="words">words</option>
             <option value="musics">musics</option>
         </select>
-        <input type="button" value="全部" onclick="findAll()">
-        <input type="button" value="查询" onclick="findUser()">
+        <input type="button" value="全部" id="findAll">
+        <input type="button" value="查询" id="findUser">
     </div>
     <form class="box" id="my-form" name="my-form">
         <span id="error"></span>
         <div class="input-box">
         </div>
-        <input type="button" value="新增" onclick="addUser()">
-        <input type="button" value="修改" onclick="updateUser()">
-        <input type="button" value="删除" onclick="deleteUser()">
+        <input type="button" value="新增" id="addUser">
+        <input type="button" value="修改" id="updateUser">
+        <input type="button" value="删除" id="deleteUser">
         <input type="reset" value="重置">
     </form>
     <div class="user-list">
@@ -55,14 +55,22 @@
         </table>
     </div>
     <p>-------------</p>
-    <p>上传文件</p>
-    音乐：<form id="musicForm" enctype="multipart/form-data"><input type="file" name="filename" id="musicFile"></form><br>
-    <a href="javascript:;" id="postMusic">上传</a><br><br> 音图：
-    <input type="file" id="picFile"><br>
-    <a href="javascript:;" id="postPic">上传</a><br><br> 其他：
-    <input type="file" id="otherFile"><br> 路径：
-    <input type="text" id="otherPath"><br>
-    <a href="javascript:;" id="postOhter">上传</a>
+    <p>上传音乐</p>
+    <form id="musicForm" enctype="multipart/form-data">
+        <div class="form-box">
+            <label for="musicFile">音乐：</label><input type="file" name="musicFile" id="musicFile">
+        </div>
+        <div class="form-box">
+            <label for="musicPic">头像：</label><input type="file" name="musicPic" id="musicPic">
+        </div>
+        <div class="form-box">
+            <label for="">歌名：</label><input type="text" name="name">
+        </div>
+        <div class="form-box">
+            <label for="">作者：</label><input type="text" name="artist">
+        </div>
+        <input type="button" value="上传" id="postMusic"></div>
+    </form>
     上传状态：<p><span id="progress"></span> <span id="postInfo"></span></p>
     <script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
@@ -95,10 +103,14 @@
             // 创建表格
             var createTable = function(data) {
                 var str = '';
+                let key = [];
+                for (var i in data[0]) {
+                    key.push(i);
+                }
                 $.each(data, function(index, el) {
                     str += '<tr>';
-                    for (var i in el) {
-                        str += '<td data="' + i + '">' + (el[i] || '') + '</td>';
+                    for (var i = 0; i < key.length; i++) {
+                        str += '<td data="' + key[i] + '">' + (el[key[i]] || '') + '</td>';
                     }
                     str += '</tr>';
                 });
@@ -275,7 +287,13 @@
                     obj[$(el).attr('data')] = $(el).text();
                 })
                 setForm(obj);
-            })
+            });
+            // 绑定数据
+            $('#findAll').click(findAll);
+            $('#findUser').click(findUser);
+            $('#addUser').click(addUser);
+            $('#updateUser').click(updateUser);
+            $('#deleteUser').click(deleteUser);
         }
 
         crud();

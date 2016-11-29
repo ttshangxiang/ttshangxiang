@@ -4,8 +4,8 @@ import Musics from '../models/musics';
 import 'core-js/fn/object/assign';
 import path from 'path';
 
-const upload_path = path.join(__dirname, 'upload/');
-const upload = multer({ dest: upload_path });
+const base_path = path.join(__dirname, '../../');
+const upload = multer({ dest: path.join(base_path, './uploads/') });
 
 import koaRouter from 'koa-router';
 const router = koaRouter();
@@ -28,12 +28,12 @@ router.post('/', upload.fields([{ name: 'musicFile', maxCount: 1}, { name: 'musi
             musicPath = '',
             musicPicPath = '';
         let suffix = musicFile.originalname.substr(musicFile.originalname.lastIndexOf('.'));
-        musicPath = './client/static/musics/' + random + suffix;
-        fs.renameSync(musicFile.path, musicPath);
+        musicPath =  './client/static/musics/' + random + suffix;
+        fs.renameSync(musicFile.path, path.join(base_path, musicPath));
 
         let suffix2 = musicPic.originalname.substr(musicPic.originalname.lastIndexOf('.'));
         musicPicPath = './client/static/images/musics/' + random + suffix2;
-        fs.renameSync(musicPic.path, musicPicPath);
+        fs.renameSync(musicPic.path, path.join(base_path, musicPicPath));
 
         let param = Object.assign({group: '', click: 1 }, ctx.req.body, { path: musicPath.substr(8), img: musicPicPath.substr(8) })
         await Musics(param).save();

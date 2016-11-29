@@ -2,9 +2,10 @@ import multer from 'koa-multer';
 import fs from 'fs';
 import Musics from '../models/musics';
 import 'core-js/fn/object/assign';
+import path from 'path';
 
-const upload = multer({ dest: './uploads/' });
-
+const upload_path = path.join(__dirname, 'upload/');
+const upload = multer({ dest: upload_path });
 
 import koaRouter from 'koa-router';
 const router = koaRouter();

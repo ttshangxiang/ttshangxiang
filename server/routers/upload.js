@@ -3,7 +3,7 @@ import fs from 'fs';
 import Musics from '../models/musics';
 import 'core-js/fn/object/assign';
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: './uploads/' });
 
 
 import koaRouter from 'koa-router';
@@ -27,14 +27,14 @@ router.post('/', upload.fields([{ name: 'musicFile', maxCount: 1}, { name: 'musi
             musicPath = '',
             musicPicPath = '';
         let suffix = musicFile.originalname.substr(musicFile.originalname.lastIndexOf('.'));
-        musicPath = 'client/static/musics/' + random + suffix;
+        musicPath = './client/static/musics/' + random + suffix;
         fs.renameSync(musicFile.path, musicPath);
 
         let suffix2 = musicPic.originalname.substr(musicPic.originalname.lastIndexOf('.'));
-        musicPicPath = 'client/static/images/musics/' + random + suffix2;
+        musicPicPath = './client/static/images/musics/' + random + suffix2;
         fs.renameSync(musicPic.path, musicPicPath);
 
-        let param = Object.assign({group: '', click: 1 }, ctx.req.body, { path: musicPath.substr(6), img: musicPicPath.substr(6) })
+        let param = Object.assign({group: '', click: 1 }, ctx.req.body, { path: musicPath.substr(8), img: musicPicPath.substr(8) })
         await Musics(param).save();
         ctx.body = { status: true };
     } catch (err) {

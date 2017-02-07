@@ -202,7 +202,6 @@ class Player extends React.Component {
         } else if (this.state.status == 1) {
             play_class += 'pause';
         }
-        console.log(this.props.loading);
         let voice_style = {
             display: this.state.quiet ? 'none' : 'block',
             width: this.state.volume * 100 + '%'

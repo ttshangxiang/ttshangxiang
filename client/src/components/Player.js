@@ -7,7 +7,8 @@ const mapStateToProps = (state) => {
     return {
         list: state.music.list,
         music_index: state.music.playing,
-        autoplay: state.music.autoplay //自动播放
+        autoplay: state.music.autoplay, //自动播放
+        loading: state.music.loading //是否需要等待
     }
 }
 
@@ -29,6 +30,12 @@ const action = {
         return {
             type: 'musics_play',
             index: index
+        }
+    },
+    setLoading: (loading) => {
+        return {
+            type: 'musics_loading',
+            loading: loading
         }
     }
 }
@@ -52,7 +59,6 @@ class Player extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false, //是否需要等待
             /*
              *  1: 播放中
              *  2: 暂停
@@ -99,10 +105,10 @@ class Player extends React.Component {
             this.setState({ status: 1 });
         });
         audio.addEventListener('playing', () => {
-            this.setState({ loading: false });
+            this.props.setLoading(false);
         });
         audio.addEventListener('waiting', () => {
-            this.setState({ loading: true });
+            this.props.setLoading(true);
         });
         audio.addEventListener('ended', () => {
             this.change('next');
@@ -129,7 +135,7 @@ class Player extends React.Component {
     //播放
     play() {
         if (this.state.status > 1) {
-            this.setState({ loading: true });
+            this.props.setLoading(true);
             this.refs.audio.play();
             this.setState({ status: 1 });
         }
@@ -141,7 +147,6 @@ class Player extends React.Component {
 
     //切歌
     change(action) {
-        this.setState({ loading: true });
         const { list, music_index } = this.props;
         let next_index = null;
         if (action == 'next') {
@@ -189,7 +194,7 @@ class Player extends React.Component {
     }
 
     render() {
-        const { list, music_index } = this.props;
+        const { list, music_index, loading } = this.props;
         const music = list[music_index] || {};
         let play_class = 'play btn ';
         if (this.state.status == -1) {
@@ -197,6 +202,7 @@ class Player extends React.Component {
         } else if (this.state.status == 1) {
             play_class += 'pause';
         }
+        console.log(this.props.loading);
         let voice_style = {
             display: this.state.quiet ? 'none' : 'block',
             width: this.state.volume * 100 + '%'
@@ -205,7 +211,7 @@ class Player extends React.Component {
             <div className="s_player">
                 <div className="btn-box">
                     <a href="javascript:;" className={ play_class } onClick={ this.play.bind(this) }>
-                        <div className={ this.state.loading ? 'loading' : '' }>
+                        <div className={ loading ? 'loading' : '' }>
                         </div>
                     </a>
                     <a href="javascript:;" className="like btn">

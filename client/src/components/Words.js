@@ -49,7 +49,7 @@ class Words extends React.Component {
             items.push(<Card key={data[i]._id} data={data[i]}></Card>)
         }
         return (
-            <div className="words">
+            <div className="words" style={{marginBottom: '130px', overflow: 'hidden'}}>
                 {items}
             </div>
         );

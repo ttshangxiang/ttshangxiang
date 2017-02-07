@@ -28,7 +28,8 @@ db.on('close', () => {
 let create = () => { //创建连接
     return new Promise((resolve, reject) => {
         try {
-            db.once('error', () => {
+            db.once('error', (err) => {
+                console.log(err);
                 reject('error1');
             });
             db.once('open', () => {
@@ -37,7 +38,7 @@ let create = () => { //创建连接
             db.once('disconnected', () => {
                 reject('error2');
             });
-            mongoose.connect('mongodb://root:123456@ds011715.mlab.com:11715/ttshangxiang');
+            mongoose.connect('mongodb://admin:123456@45.76.208.181:27017/ttsx?authSource=admin');
         } catch (err) {
             reject('error3');
         }

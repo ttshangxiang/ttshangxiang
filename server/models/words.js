@@ -8,7 +8,7 @@ let WordSchema = new Schema({
     date: String,
     click: Number,
     img: String
-}, { collection: 'words' });
+}, { collection: 'words_collection' });
 
 WordSchema.statics = {
     list() {

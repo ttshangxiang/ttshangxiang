@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state) => {
     return {
         list: state.music.list,
-        music_index: state.music.playing
+        music_index: state.music.playing,
+        autoplay: state.music.autoplay //自动播放
     }
 }
 
@@ -19,10 +20,6 @@ const action = {
                     dispatch({
                         type: 'musics_load',
                         list: json
-                    });
-                    dispatch({
-                        type: 'musics_play',
-                        index: 2
                     });
                 })
                 .catch(err => console.log(err))
@@ -71,7 +68,6 @@ class Player extends React.Component {
             loop: 0,
             volume: 1, //音量
             quiet: false,
-            autoplay: false, //自动播放
             preload: 'none', //不自动加载
             times: '', //时间显示
             played: 0, //进度条
@@ -109,13 +105,7 @@ class Player extends React.Component {
             this.setState({ loading: true });
         });
         audio.addEventListener('ended', () => {
-            if (this.state.loop == 1) {
-                this.change('next');
-            }
-            if (this.state.loop == 3) {
-                this.setState({ autoplay: true, loading: true });
-                this.props.play(Math.floor(( Math.random() * this.props.list.length )));
-            }
+            this.change('next');
         });
         //进度条
         setInterval( () => {
@@ -151,13 +141,17 @@ class Player extends React.Component {
 
     //切歌
     change(action) {
-        this.setState({ autoplay: true, loading: true });
+        this.setState({ loading: true });
         const { list, music_index } = this.props;
         let next_index = null;
         if (action == 'next') {
-            next_index = music_index + 1;
-            if (next_index >= list.length) {
-                next_index = 0;
+            if (this.state.loop == 3) {
+                next_index = Math.floor( Math.random() * this.props.list.length );
+            } else {
+                next_index = music_index + 1;
+                if (next_index >= list.length) {
+                    next_index = 0;
+                }
             }
         } else if (action == 'prev') {
             next_index = music_index - 1;
@@ -220,10 +214,10 @@ class Player extends React.Component {
                 <div className="info">
                     <img className="bg" src="/static/images/musics/bg.jpg" alt="" />
                     <div className="content">
-                        <img className="head" src={ music.img } alt="" />
+                        <img className="head" src="/static/images/musics/default.svg" alt="" />
                         <div className="song_title"> { music.name }
                         </div>
-                        <div className="song_artist"> { music.artist }
+                        <div className="song_artist"> { music.singer }
                         </div>
                     </div>
                     <div className="song-btn">
@@ -246,7 +240,7 @@ class Player extends React.Component {
                     <a href="javascript:;" className="prev btn" onClick={ this.change.bind(this, 'prev') }>
                     </a>
                 </div>
-                <audio src={ music.path } ref="audio" preload="none" autoPlay={ this.state.autoplay } loop={ this.state.loop == 2 }></audio>
+                <audio src={ 'http://t.ttshangxiang.com/'+music.url } ref="audio" preload="none" autoPlay={ this.props.autoplay } loop={ this.state.loop == 2 }></audio>
             </div>
         );
     }

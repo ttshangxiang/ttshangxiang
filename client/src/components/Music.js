@@ -1,25 +1,62 @@
-
+import '../styles/Music.css';
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-class AppComponent extends React.Component {
+const mapStateToProps = (state) => {
+    return {
+        list: state.music.list,
+        music_index: state.music.playing
+    }
+}
+
+const action = {
+    play: (index) => {
+        return {
+            type: 'musics_play',
+            index: index
+        }
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(action, dispatch);
+}
+
+class Music extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+    play (index) {
+        this.props.play(index);
+    }
 
     render() {
-        const icon_play = require('../images/svg/play.svg');
-        const icon_pause = require('../images/svg/pause.svg');
-        const icon_prev = require('../images/svg/prev.svg');
-        const icon_next = require('../images/svg/next.svg');
+        const { list, music_index } = this.props;
+        let list_dom = [];
+        list.forEach((item, index) => {
+            let active = '';
+            if (music_index == index) {
+                active = 'active';
+            }
+            list_dom.push(<li className={'item ' + active} key={index} onClick={ this.play.bind(this, index) }>{index} - {item.name}</li>);
+        });
         return (
-            <div className="index">
-                <img src={icon_play} alt=""/>
-                <img src={icon_pause} alt=""/>
-                <img src={icon_prev} alt=""/>
-                <img src={icon_next} alt=""/>
+            <div className="musicList">
+                {list_dom}
             </div>
         );
     }
 }
 
-AppComponent.defaultProps = {
+Music.defaultProps = {
 };
 
-export default AppComponent;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Music);

@@ -4,12 +4,11 @@ const Schema = mongoose.Schema;
 
 let MusicSchema = new Schema({
     name: String,
-    artist: String,
+    singer: String,
     group: String,
-    click: Number,
-    img: String,
-    path: String
-}, { collection: 'musics' });
+    url: String,
+    about: String
+}, { collection: 'music_collection' });
 
 MusicSchema.statics = {
     list() {

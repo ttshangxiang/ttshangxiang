@@ -5,7 +5,7 @@ module.exports = {
     suffix: 'Musics', //方法后缀
     getIndex: async(ctx, next) => {
         try {
-            const list = await Musics.find();
+            const list = await Musics.find({show: 0});
             ctx.body = list;
         } catch (err) {
             console.log(err);

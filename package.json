@@ -74,6 +74,7 @@
     "karma-webpack": "^1.7.0",
     "less": "^2.5.3",
     "less-loader": "^2.0.0",
+    "lib-flexible": "^0.3.2",
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
     "null-loader": "^0.1.1",

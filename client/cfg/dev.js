@@ -9,11 +9,18 @@ let defaultSettings = require('./defaults');
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
-  entry: [
-    'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
-    'webpack/hot/dev-server',
-    './client/src/index'
-  ],
+  entry: {
+    index: [
+      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
+      'webpack/hot/dev-server',
+      './client/src/index'
+    ],
+    music: [
+      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
+      'webpack/hot/dev-server',
+      './client/src/music'
+    ]
+  },
   cache: true,
   devtool: 'eval-source-map',
   plugins: baseConfig.plugins.concat([

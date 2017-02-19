@@ -57,7 +57,7 @@ function post (url, param) {
 
 module.exports = {
     //获取用户的歌单
-    getUserList (uid, offset=0, limit=20) {
+    getUserlist (uid, offset=0, limit=20) {
         let param = {
             offset: offset,
             uid: uid,

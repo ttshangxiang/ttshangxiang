@@ -4,22 +4,22 @@ import Neteast from '../models/neteast';
 module.exports = {
     getIndex: async(ctx, next) => {
         try {
-            const list = await Neteast.getUserList(93828616);
+            const list = await Neteast.getUserlist(93828616);
             ctx.body = list;
         } catch (err) {
             console.log(err);
             ctx.body = { status: false, message: '查询失败' };
         }
     },
-    getUserList: async(ctx, next) => {
+    getUserlist: async(ctx, next) => {
         try {
             let uid = ctx.params.itemId;
             if (!uid) {
                 ctx.body = { status: false, message: '缺少ID' };
                 return;
             }
-            let {offset, limit} = ctx.query;
-            const list = await Neteast.getUserList(uid, offset, limit);
+            let {offset=0, limit=60} = ctx.query;
+            const list = await Neteast.getUserlist(uid, offset, limit);
             ctx.body = list;
         } catch (err) {
             console.log(err);
@@ -104,7 +104,7 @@ module.exports = {
                 ctx.body = { status: false, message: '缺少ID' };
                 return;
             }
-            let {type, offset, limit} = ctx.query;
+            let {type='R_SO_4_', offset=0, limit=20} = ctx.query;
             const list = await Neteast.getComment(song_id, type, offset, limit);
             ctx.body = list;
         } catch (err) {
@@ -114,7 +114,7 @@ module.exports = {
     },
     cloudsearch: async(ctx, next) => {
         try {
-            let {keywords, type, offset, limit} = ctx.query;
+            let {keywords, type=1, offset=0, limit=20} = ctx.query;
             const list = await Neteast.cloudsearch(keywords, type, offset, limit);
             ctx.body = list;
         } catch (err) {

@@ -21,9 +21,9 @@ exports.resource = (router, controller) => {
 
 exports.controller = (router, controller) => {
     router.get('/', controller.getIndex)
-        .all('/:method', async(ctx, next) => {
+        .all('/:method/:itemId', async(ctx, next) => {
             let pre = ctx.method.toLowerCase();
             let suf = ctx.params.method.substr(0, 1).toUpperCase() + ctx.params.method.substr(1).toLowerCase();
             await controller[pre + suf](ctx, next);
-        })
+        });
 }

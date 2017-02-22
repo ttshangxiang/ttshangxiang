@@ -46,31 +46,30 @@ div {
     background-color: #ccc;
 }
 
-.list .player-page{
+.playlist_module .player-page{
     transform: translateX(100%);
 }
 
-.item .player-page{
+.player_module .player-page{
     transform: translateX(0);
 }
 
 .player-bg {
     position: absolute;
-    z-index: -1;
-    height: 200%;
-    width: 200%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    z-index: -2;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
     background-repeat: no-repeat;
     background-size: auto 100%;
-    -webkit-filter: blur(100px); /* Chrome, Opera */
-       -moz-filter: blur(100px);
-        -ms-filter: blur(100px);    
-            filter: blur(100px); 
 }
 
 .player-bg2 {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
     background-color: rgba(0,0,0,0.4);
@@ -127,7 +126,7 @@ div {
 }
 
 .player-center .player-bang {
-    background: url(../images/neteast/ab6.png) no-repeat center;
+    background: url(../images/neteast/ab6-2.png) no-repeat center;
     background-size: 2.5rem 3.7rem;
     width: 2.5rem;
     height: 3.7rem;

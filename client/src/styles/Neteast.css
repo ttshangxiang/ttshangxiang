@@ -276,10 +276,10 @@ div {
 }
 
 .player-progress .bar .point {
-    width: 0.45rem;
-    height: 0.45rem;
+    width: 0.42rem;
+    height: 0.42rem;
     background: url(../images/neteast/abc.png) no-repeat center;
-    background-size: 100%;
+    background-size: 0.42rem 0.42rem;
     position: absolute;
     right: 0;
     transform: translate(50%, -40%);

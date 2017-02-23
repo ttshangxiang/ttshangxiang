@@ -20,7 +20,7 @@ class Playlist extends React.Component {
         let { list, select_id } = this.props;
         let dom = [];
         list.forEach((item, index) => {
-            dom.push(<li key={index} className={'item ' + (index==select_id?'active':'')} onClick={this.selectItem.bind(this, index)}>{index}、{item.name} - {item.ar&&item.ar[0]&&item.ar[0].name}</li>)
+            dom.push(<li key={index} className={'item ' + (index==select_id?'active':'')} onClick={()=>this.selectItem(index)}>{index}、{item.name} - {item.ar&&item.ar[0]&&item.ar[0].name}</li>)
         });
         return (
             <div className="playlist-page">

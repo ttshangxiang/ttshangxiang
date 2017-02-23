@@ -90,10 +90,13 @@ class Player extends React.Component {
             preload: 'none', //不自动加载
 
             select_id: null,
-            mp3_url: '',
             pic_url: '',
             pic_url_blur: ''
-        }
+        };
+    }
+
+    componentDidMount() {
+        this.audio = document.getElementById('audio');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -118,10 +121,10 @@ class Player extends React.Component {
     //播放
     play() {
         if (this.state.status > 1) {
-            this.refs.audio.play();
+            this.audio.play();
             this.setState({ status: 1 });
         } else if (this.state.status == 1) {
-            this.refs.audio.pause();
+            this.audio.pause();
             this.setState({ status: 2 });
         }
     }
@@ -159,17 +162,15 @@ class Player extends React.Component {
         .then(response => response.json())
         .then(json => {
             if (json.data&&json.data&&json.data[0]) {
-                this.setState({
-                    mp3_url: json.data[0].url
-                });
-                this.refs.audio.play();
+                this.audio.src = json.data[0].url;
+                this.audio.play();
                 this.setState({ status: 1 });
             }
         })
     }
 
     setMyState (obj) {
-        this.setState(obj);
+        obj && this.setState(obj);
     }
 
     render() {
@@ -181,12 +182,11 @@ class Player extends React.Component {
         }
         return (
             <div className="player-page">
-                <audio id="audio" src={ this.state.mp3_url } ref="audio" preload="none"></audio>
                 <div className="player-bg" style={{backgroundImage: pic_url_blur}}>
                     <div className="player-bg2"></div>
                 </div>
                 <div className="player-header">
-                    <div className="player-back" onClick={this.backToList.bind(this)}></div>
+                    <div className="player-back" onClick={() => this.backToList()}></div>
                     <div className="player-title">
                         <div className="title">{select_item.name}</div>
                         <div className="artist">{select_item.ar[0].name}</div>
@@ -209,14 +209,14 @@ class Player extends React.Component {
                             <div className="item more"></div>
                         </div>
                     </div>
-                    <Progress change={this.change.bind(this)} setParentState={this.setMyState.bind(this)}></Progress>
+                    <Progress change={(action) => this.change(action)} setParentState={() => this.setMyState()}></Progress>
                     <div className="player-controller">
                         <div className="random"></div>
                         <div className="list"></div>
                         <div className="wrap">
-                            <div className="prev" onClick={this.change.bind(this,'prev')}></div>
-                            <div className={'play ' + (this.state.status==1?'':'pause')} onClick={this.play.bind(this)}></div>
-                            <div className="next" onClick={this.change.bind(this,'next')}></div>
+                            <div className="prev" onClick={() => this.change('prev')}></div>
+                            <div className={'play ' + (this.state.status==1?'':'pause')} onClick={() => this.play()}></div>
+                            <div className="next" onClick={() => this.change('next')}></div>
                         </div>
                     </div>
                 </div>

@@ -51,8 +51,9 @@ class Neteast extends React.Component {
         let { type, list, select_id} = this.state;
         return (
             <div className={'neteast ' + type}>
-                <Playlist list={list} select_id={select_id} selectItem={this.selectItem.bind(this)}></Playlist>
-                <Player list={list} select_id={select_id}  selectItem={this.selectItem.bind(this)} goto={this.goto.bind(this)}></Player>
+                <Playlist list={list} select_id={select_id} selectItem={(index) =>this.selectItem(index)}></Playlist>
+                <Player list={list} select_id={select_id}  selectItem={(index) =>this.selectItem(index)} goto={(type) => this.goto(type)}></Player>
+                <audio id="audio" preload="none"></audio>
             </div>
         );
     }

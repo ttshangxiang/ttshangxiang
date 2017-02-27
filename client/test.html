@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        fetch('/weapi/song/enhance/player/url?csrf_token=',{
+            method: 'POST',
+            body: 'params=SnNNP9tekjfD7F6bJEPER0M3oibAtp4O%2BtIXlMAg%2BRgcB3drDWuYd4l1mrzhg2b%2FRVaRY24M2EgDTPQ8pdqiWCBsJHfzW7NbidXbWmV2IvwGGhxMeYlq6ouIL2ofD%2F51hB%2Bn0QRbEwOui41WEZOvSeLBHBShhpbabs77%2FzhfzdFZy4RV4ufeE7jZbTEdB8Zt&encSecKey=5b50b7b3152d7588dfe43f1356d5eebf27cfcfdf082c4fa376c70ab017ff8ebf284094cc0c1d28b96f7ccd82398a6d280acc23db36af6664f205031eae214cde0a726e4a0f9253303b1781f3391eb123c59dcbb35598715ee8e0d7d571d82b6372919a9f75d05bc407f19a872ec1a09fa3c93c667e47b51d117eeb7fbe1927a8',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(response => response.json())
+        .then(json => console.log(json));
+    </script>
+</body>
+</html>

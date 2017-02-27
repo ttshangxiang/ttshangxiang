@@ -118,7 +118,8 @@ module.exports = {
             ids: [song_id],
             br: 320000
         };
-        return post('http://music.163.com/weapi/song/enhance/player/url?csrf_token=', param);
+        // return post('http://music.163.com/weapi/song/enhance/player/url?csrf_token=', param);
+        return post('http://t.ttshangxiang.com/weapi/song/enhance/player/url?csrf_token=', param);
     },
     //获取歌词
     getLyric (song_id) {

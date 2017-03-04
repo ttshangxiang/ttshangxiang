@@ -8,7 +8,6 @@ class Player extends React.Component {
         this.state = {
             status: 3,
             loop: 1,
-            autoplay: false,
             preload: 'none', //不自动加载
 
             timeleft: '', //时间显示
@@ -38,7 +37,8 @@ class Player extends React.Component {
             return;
         }
         let newState = {
-            select_id: select_id
+            select_id: select_id,
+            loading: true
         };
         if (list && list[select_id] && list[select_id].al && list[select_id].al) {
             let pic_url = list[select_id].al.picUrl+'?param=320y320',
@@ -165,13 +165,13 @@ class Player extends React.Component {
 
     //获取歌曲播放url
     getUrl(index) {
-        this.setState({loading: true});
         let select_item = this.props.list[index];
         if (!select_item) return;
         fetch('/api/neteast/url/'+select_item.id)
         .then(response => response.json())
         .then(json => {
             if (json.data&&json.data&&json.data[0]) {
+                this.audio.autoplay = 'autoplay';
                 this.audio.src = json.data[0].url;
                 this.audio.play();
                 this.setState({ status: 1 });

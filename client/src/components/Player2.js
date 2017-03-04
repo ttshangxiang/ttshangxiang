@@ -109,6 +109,9 @@ class Player extends React.Component {
                     loaded: 0
                 });
             }
+            if (this.state.status == 1 && audio.paused) { //防止未暂停但是不播放
+                audio.play()
+            }
             
         }, 500);
     }

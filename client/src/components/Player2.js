@@ -6,7 +6,7 @@ class Player extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            status: 3,
+            status: 1,
             loop: 1,
             preload: 'none', //不自动加载
 
@@ -108,9 +108,6 @@ class Player extends React.Component {
                     played: 0,
                     loaded: 0
                 });
-            }
-            if (this.state.status == 1 && audio.paused) { //防止未暂停但是不播放
-                audio.play()
             }
             
         }, 500);

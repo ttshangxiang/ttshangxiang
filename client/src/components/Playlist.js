@@ -10,9 +10,14 @@ class Playlist extends React.Component {
     }
 
     componentDidMount() {
+        this.first = false;
     }
 
     selectItem (index) {
+        if (!this.first) { //uc bug，必须手动触发一次play
+            document.getElementById('audio').play();
+            this.first = true;
+        }
         this.props.selectItem(index);
     }
 

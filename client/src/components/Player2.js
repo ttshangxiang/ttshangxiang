@@ -38,7 +38,8 @@ class Player extends React.Component {
         }
         let newState = {
             select_id: select_id,
-            loading: true
+            loading: true,
+            status: 1
         };
         if (list && list[select_id] && list[select_id].al && list[select_id].al) {
             let pic_url = list[select_id].al.picUrl+'?param=320y320',
@@ -58,6 +59,9 @@ class Player extends React.Component {
     //事件
     checkStatus() {
         let audio = this.audio;
+        audio.addEventListener('canplay', () => {
+            audio.play();
+        });
         audio.addEventListener('pause', () => {
             this.setState({ status: 2 });
         });
@@ -173,8 +177,6 @@ class Player extends React.Component {
             if (json.data&&json.data&&json.data[0]) {
                 this.audio.autoplay = 'autoplay';
                 this.audio.src = json.data[0].url;
-                this.audio.play();
-                this.setState({ status: 1 });
             }
         });
         this.getLyric(index);

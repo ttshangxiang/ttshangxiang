@@ -58,7 +58,7 @@ class Neteast extends React.Component {
             <div className={'neteast ' + type}>
                 <Playlist list={list} select_id={select_id} selectItem={(index) =>this.selectItem(index)}></Playlist>
                 <Player list={list} select_id={select_id}  selectItem={(index) =>this.selectItem(index)} goto={(type) => this.goto(type)}></Player>
-                <audio id="audio" preload="none" autoplay="autoplay"></audio>
+                <audio id="audio" preload="none"></audio>
             </div>
         );
     }

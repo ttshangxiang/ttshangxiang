@@ -114,7 +114,7 @@ div {
 .player-center {
     position: relative;
     overflow: hidden;
-    height: 11.5rem;
+    height: 60%;
     z-index: 3;
 }
 
@@ -376,7 +376,7 @@ div {
     position: absolute;
     width: 100%;
     text-align: center;
-    top: 40%;
+    top: 35%;
 }
 
 .player-center .cd-page {

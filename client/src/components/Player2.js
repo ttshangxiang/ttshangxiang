@@ -87,10 +87,13 @@ class Player extends React.Component {
                 }
 
                 let { lyric, lyric_index } = this.state;
+                let dom = document.querySelector('#lyric-page .item.active');
                 if (lyric[lyric_index] && (!reg.test(lyric[lyric_index][0]) || time > lyric[lyric_index][0])) {
-                    obj.lyric_index = ++lyric_index;
-                    let dom = document.querySelector('#lyric-page .item.active');
-                    dom && (lyric_dom.style.transform = 'translateY('+-1*dom.offsetTop+'px)');
+                    dom && (lyric_dom.style.transform = 'translateY('+-1*(dom.offsetTop+dom.clientHeight)+'px)');
+                    obj.lyric_index = lyric_index + 1;
+                }
+                if (lyric_index == 0) {
+                    lyric_dom.style.transform = 'translateY(0px)';
                 }
                 this.setState(obj);
 

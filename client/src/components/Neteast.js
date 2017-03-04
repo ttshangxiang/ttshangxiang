@@ -4,6 +4,11 @@ import React from 'react';
 import Playlist from './Playlist';
 import Player from './Player2';
 
+import 'core-js/fn/object/assign';
+import 'isomorphic-fetch';
+import promise from 'es6-promise';
+promise.polyfill();
+
 class Neteast extends React.Component {
 
     constructor(props) {

@@ -14,11 +14,6 @@ let config = Object.assign({}, baseConfig, {
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/dev-server',
       './client/src/index'
-    ],
-    music: [
-      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
-      'webpack/hot/dev-server',
-      './client/src/music'
     ]
   },
   cache: true,

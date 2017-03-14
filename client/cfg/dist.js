@@ -11,8 +11,7 @@ let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: {
-    index: path.join(__dirname, '../src/index'),
-    music: path.join(__dirname, '../src/music')
+    index: path.join(__dirname, '../src/index')
   },
   cache: false,
   devtool: 'sourcemap',

@@ -13,7 +13,7 @@ let config = Object.assign({}, baseConfig, {
     index: [
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/dev-server',
-      './client/src/index'
+      path.join(__dirname, '../src/index')
     ]
   },
   cache: true,

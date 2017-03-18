@@ -94,6 +94,51 @@ module.exports = {
             });
         });
     },
+    //获取单曲详情
+    getSong (song_id) {
+        return new Promise((resolve, reject) => {
+            get(`http://music.163.com/song?id=${song_id}`, function(body, code) {
+                if (code == -1) {
+                    resolve(body);
+                } else {
+                    let reg = /<title>(.*)网易云音乐<\/title>/,
+                        arr = body.match(reg);
+                    let reg2 = /class="j-img" data-src="(.*)">/,
+                        arr2 = body.match(reg2);
+                    let reg3 = /<p class="des s-fc4">歌手：(.*)<\/p>/,
+                        arr3 = body.match(reg3);
+                    let reg4 = /<p class="des s-fc4">所属专辑：(.*)<\/p>/,
+                        arr4 = body.match(reg4);
+                    let obj = {};
+                    if (arr[1]) {
+                        obj.title = arr[1].split(' - ')[0];
+                    }
+                    if (arr2[1]) {
+                        obj.img = arr2[1];
+                    }
+                    if (arr3[1]) {
+                        let _arr3 = arr3[1].match(/<span title="(.*)"><a class="s-fc7" href="\/artist\?id=(.*)">(.*)<\/a><\/span>/)
+                        if (_arr3[1]) {
+                            obj.artist = _arr3[1];
+                        }
+                        if (_arr3[2]) {
+                            obj.artist_id = _arr3[2];
+                        }
+                    }
+                    if (arr4[1]) {
+                        let _arr4 = arr4[1].match(/<a href="\/album\?id=(.*)" class="s-fc7">(.*)<\/a>/)
+                        if (_arr4[1]) {
+                            obj.album_id = _arr4[1];
+                        }
+                        if (_arr4[2]) {
+                            obj.album = _arr4[2];
+                        }
+                    }
+                    resolve(obj);
+                }
+            });
+        });
+    },
     //获取专辑详情
     getAlbum (album_id) {
         return new Promise((resolve, reject) => {

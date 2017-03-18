@@ -54,6 +54,20 @@ module.exports = {
             ctx.body = { status: false, message: '查询失败' };
         }
     },
+    getSong: async(ctx, next) => {
+        try {
+            let song_id = ctx.params.itemId;
+            if (!song_id) {
+                ctx.body = { status: false, message: '缺少ID' };
+                return;
+            }
+            const list = await Neteast.getSong(song_id);
+            ctx.body = list;
+        } catch (err) {
+            console.log(err);
+            ctx.body = { status: false, message: '查询失败' };
+        }
+    },
     getAlbum: async(ctx, next) => {
         try {
             let album_id = ctx.params.itemId;

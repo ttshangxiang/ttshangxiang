@@ -163,17 +163,17 @@ module.exports = {
             ids: [song_id],
             br: 320000
         };
-        // return post('http://music.163.com/weapi/song/enhance/player/url?csrf_token=', param);
+        return post('http://music.163.com/weapi/song/enhance/player/url?csrf_token=', param);
         // return post('http://t.ttshangxiang.com/weapi/song/enhance/player/url?csrf_token=', param);
-        return new Promise((resolve, reject) => {
-             request('http://t.ttshangxiang.com/weapi/song/enhance/player/url?'+encode(param), function(error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    resolve(body);
-                } else {
-                    resolve(error);
-                }
-            });
-        });
+        // return new Promise((resolve, reject) => {
+        //      request('http://t.ttshangxiang.com/weapi/song/enhance/player/url?'+encode(param), function(error, response, body) {
+        //         if (!error && response.statusCode == 200) {
+        //             resolve(body);
+        //         } else {
+        //             resolve(error);
+        //         }
+        //     });
+        // });
        
     },
     //获取歌词

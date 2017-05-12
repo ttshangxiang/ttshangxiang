@@ -1,0 +1,25 @@
+
+.chat-page {
+    position: absolute;
+    top: 42px;
+    bottom: 6px;
+    left: 8px;
+    right: 8px;
+    box-sizing: border-box;
+}
+
+.chat-page > * {
+    height: 100%;
+}
+
+.chat-list-wrap {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.chat-bottom {
+    bottom: 0px;
+    width: 100%;
+    position: absolute;
+    border-top: 1px solid #eee;
+}

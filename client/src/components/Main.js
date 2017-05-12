@@ -17,8 +17,9 @@ class AppComponent extends React.Component {
                     <li><IndexLink to="/" activeClassName="active">HOME</IndexLink></li>
                     <li><Link to="/words" activeClassName="active">WORDS</Link></li>
                     <li><Link to="/music" activeClassName="active">MUSIC</Link></li>
+                    <li><Link to="/chat" activeClassName="active">CHAT</Link></li>
                 </ul>
-                <Player></Player>
+                {/*<Player></Player>*/}
                 {this.props.children}
             </div>
         );

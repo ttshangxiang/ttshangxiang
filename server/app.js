@@ -31,4 +31,19 @@ app.use(router.routes())
     .use(router.allowedMethods());
 
 console.log('listen 3000...');
-app.listen(3000);
+const server = app.listen(3000);
+
+//socket.io
+const io = require('socket.io').listen(server);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+  socket.on('chat message', function(buffer){
+    let msg = new Buffer(buffer).toString('utf-8');
+    console.log('message: ' + msg);
+    io.emit('chat message', buffer);
+  });
+});

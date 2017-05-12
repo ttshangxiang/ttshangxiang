@@ -5,12 +5,20 @@ import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import reducers from './reducers/reducers';
 
 import Main from './components/Main';
 import Home from './components/Home';
 import Words from './components/Words';
 import Music from './components/Music';
+import Chat from './components/Chat';
 
 // Render the main component into the dom
 
@@ -20,15 +28,18 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
-    <Provider store = { store } >
-        <Router history={hashHistory}>
-            <Route path="/" component={Main}>
-                <IndexRoute component={Home}/>
-                <Route path="/words" component={Words}/>
-                <Route path="/music" component={Music}/>
-            </Route>
-        </Router>
-    </Provider>
+    <MuiThemeProvider>
+        <Provider store = { store } >
+            <Router history={hashHistory}>
+                <Route path="/" component={Main}>
+                    <IndexRoute component={Home}/>
+                    <Route path="/words" component={Words}/>
+                    <Route path="/music" component={Music}/>
+                    <Route path="/chat" component={Chat}/>
+                </Route>
+            </Router>
+        </Provider>
+    </MuiThemeProvider>
 , document.getElementById('app'));
 
 // // React component

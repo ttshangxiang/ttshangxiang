@@ -1,7 +1,10 @@
 /* Base Application Styles */
+html, body {
+    height: 100%;
+}
+
 body {
     color: #fff;
-    padding: 8px;
 }
 
 body, textarea, select, input {
@@ -20,6 +23,10 @@ a {
 
 li {
     list-style: none;
+}
+
+#app, .main{
+    height: 100%;
 }
 
 .nav {

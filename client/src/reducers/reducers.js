@@ -34,10 +34,21 @@ const music = (state = { list: [], playing: null, autoplay: false, loading: fals
     }
 }
 
+const chat = (state = { list: [], users: [], mine: {}}, action) => {
+    const { type } = action;
+    switch (type) {
+        case 'chat_save':
+            return Object.assign({}, state, action);
+        default:
+            return state;
+    }
+}
+
 const Reducer = combineReducers({
     words,
     home,
-    music
+    music,
+    chat
 })
 
 export default Reducer;

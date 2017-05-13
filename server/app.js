@@ -36,14 +36,29 @@ const server = app.listen(3000);
 //socket.io
 const io = require('socket.io').listen(server);
 
+let history_msg = [];
+let users = 0;
+
 io.on('connection', function(socket){
   console.log('a user connected');
+  users++;
+  io.emit('users', users);
   socket.on('disconnect', function(){
     console.log('user disconnected');
+    users--;
+    io.emit('users', users);
   });
   socket.on('chat message', function(buffer){
     let msg = new Buffer(buffer).toString('utf-8');
+    if (history_msg.length > 100) {
+        history_msg.shift();
+    }
+    history_msg.push(buffer);
     console.log('message: ' + msg);
     io.emit('chat message', buffer);
+  });
+  socket.on('history', function(fn){
+    console.log('在获取历史');
+    fn(history_msg);
   });
 });

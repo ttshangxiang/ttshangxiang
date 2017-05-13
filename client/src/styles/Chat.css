@@ -13,7 +13,10 @@
 }
 
 .chat-list-wrap {
-    height: 100%;
+    position: absolute;
+    width: 100%;
+    top: 48px;
+    bottom: 64px;
     overflow-y: auto;
 }
 
@@ -22,4 +25,49 @@
     width: 100%;
     position: absolute;
     border-top: 1px solid #eee;
+}
+
+.chat-item {
+    word-break: break-all;
+    padding-bottom: 4px;
+}
+
+.chat-nick {
+    position: absolute;
+    top: 14px;
+    left: 64px;
+    font-size: 12px !important;
+}
+
+.mine .chat-nick {
+    left: auto;
+    right: 64px;
+}
+
+.chat-box {
+    float: left;
+    max-width: 80%;
+    margin-top: 16px;
+    margin-left: -6px;
+    margin-bottom: 5px;
+}
+
+.mine .chat-box {
+    float: right;
+    margin-left: 0;
+    margin-right: 8px;
+    background: #232343 !important;
+}
+
+.chat-text {
+    color: #333;
+    font-size: 14px;
+    word-break: break-all;
+    padding: 6px 12px;
+    line-height: 1.2;
+    white-space: pre-wrap;
+}
+
+.mine .chat-text {
+    color: #f3f3f3;
 }

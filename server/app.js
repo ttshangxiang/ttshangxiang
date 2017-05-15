@@ -1,4 +1,3 @@
-
 import Koa from 'koa';
 import serve from 'koa-static';
 import path from 'path';
@@ -39,26 +38,28 @@ const io = require('socket.io').listen(server);
 let history_msg = [];
 let users = 0;
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-  users++;
-  io.emit('users', users);
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-    users--;
+io.on('connection', function (socket) {
+    console.log('a user connected');
+    users++;
+    console.log(users + '人');
     io.emit('users', users);
-  });
-  socket.on('chat message', function(buffer){
-    let msg = new Buffer(buffer).toString('utf-8');
-    if (history_msg.length > 100) {
-        history_msg.shift();
-    }
-    history_msg.push(buffer);
-    console.log('message: ' + msg);
-    io.emit('chat message', buffer);
-  });
-  socket.on('history', function(fn){
-    console.log('在获取历史');
-    fn(history_msg);
-  });
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+        users--;
+        console.log(users + '人');
+        io.emit('users', users);
+    });
+    socket.on('chat message', function (buffer) {
+        let msg = new Buffer(buffer).toString('utf-8');
+        if (history_msg.length > 100) {
+            history_msg.shift();
+        }
+        history_msg.push(buffer);
+        console.log('message: ' + msg);
+        io.emit('chat message', buffer);
+    });
+    socket.on('history', function (fn) {
+        console.log('在获取历史');
+        fn(history_msg);
+    });
 });

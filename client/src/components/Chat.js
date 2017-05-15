@@ -18,7 +18,6 @@ let socket = io();
 const mapStateToProps = (state) => {
     return {
         list: state.chat.list,
-        mine: state.chat.mine,
         users: state.chat.users
     }
 }
@@ -32,6 +31,37 @@ const action = {
 
 const unique = () => {
     return '_' + new Date().getTime() + Math.floor(Math.random()*100);
+}
+
+//获取本地存储
+const getLocalInfo = () => {
+    const storage = window.localStorage;
+    if (!storage){
+        return {};
+    }
+    let str = storage.getItem('_ttsx_chat_info'),
+        obj = {};
+    try {
+        obj = JSON.parse(str) || {};
+    } catch (error) {
+        console.log('本地存储格式出错');
+    }
+    return obj;
+}
+
+//设置本地存储
+const setLocalInfo = (obj) => {
+    const storage = window.localStorage;
+    if (!storage){
+        return;
+    }
+    try {
+        console.log(getLocalInfo());
+        let str = JSON.stringify(Object.assign(getLocalInfo(), obj));
+        storage.setItem('_ttsx_chat_info' ,str);
+    } catch (error) {
+        console.log('保存失败，格式错误');
+    }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -54,13 +84,14 @@ class Chat extends React.Component {
     }
 
     componentDidMount () {
-        
-        let {mine} = this.props;
-        if (!mine.id) {
+
+        this.mine = getLocalInfo();
+        if (!this.mine.id) {
             this.setState({open: true});
         }
+
         //历史消息
-        socket.emit('history', (history, users) => {
+        socket.emit('history', (history) => {
             history = history.map((o) => {
                 return JSON.parse(new Buffer(o).toString());
             });
@@ -98,7 +129,7 @@ class Chat extends React.Component {
         if (this.state.postMsg==''){
             return;
         }
-        let {mine} = this.props;
+        let {mine} = this;
         socket.emit('chat message', new Buffer(JSON.stringify({msg:this.state.postMsg, nickname: mine.nickname, id: mine.id})));
         this.setState({postMsg: '', bottom_height: 48});
     }
@@ -130,10 +161,11 @@ class Chat extends React.Component {
     handleClose = () => {
         if (this.state.nickname != '') {
             this.setState({open: false, nickname_err: ''});
-            this.props.save({mine: {
+            this.mine = {
                 nickname: this.state.nickname,
                 id: unique()
-            }});
+            };
+            setLocalInfo(this.mine);
         } else {
             this.setState({nickname_err: '需要一个名字哦'});
         }
@@ -141,7 +173,8 @@ class Chat extends React.Component {
 
     render() {
         let {postMsg, bottom_height, nickname, nickname_err, users} = this.state;
-        let {mine, list} = this.props;
+        let {list} = this.props;
+        let {mine} = this;
         let dom = [];
         list.forEach((item, index) => {
             let nick = <div className="chat-nick">{item.nickname}</div>;
@@ -186,6 +219,9 @@ class Chat extends React.Component {
                     onRequestClose={this.handleClose}
                     bodyStyle={{paddingBottom: 0, minHeight: '64px'}}
                 >
+                    <div className="avatar-box" style={{textAlign:'center'}}>
+                        <Avatar src="/static/images/ztlz.jpg" size={64}></Avatar>
+                    </div>
                     <TextField hintText="昵称"
                         value={nickname}
                         onChange={e=>{this.setNickName(e)}}

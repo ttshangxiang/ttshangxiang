@@ -34,7 +34,7 @@ const music = (state = { list: [], playing: null, autoplay: false, loading: fals
     }
 }
 
-const chat = (state = { list: [], users: [], mine: {}}, action) => {
+const chat = (state = { list: [], users: []}, action) => {
     const { type } = action;
     switch (type) {
         case 'chat_save':
